@@ -1,0 +1,128 @@
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\x}{\times}						
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Bcal}{\mathcal{B}}
+\newcommand{\Ecal}{\mathcal{E}}
+\newcommand{\Ucal}{\mathcal{U}}
+\newcommand{\Vcal}{\mathcal{V}}
+\newcommand{\Wcal}{\mathcal{W}}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\Ccal}{\mathcal{C}}
+\newcommand{\Xcal}{\mathcal{X}}
+\newcommand{\Ycal}{\mathcal{Y}}
+\newcommand{\Zcal}{\mathcal{Z}}
+\newcommand{\Scal}{\mathcal{S}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Ical}{\mathcal{I}}
+\newcommand{\Mcal}{\mathcal{M}}
+\newcommand{\Ncal}{\mathcal{N}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\fa}{\mathfrak{a}}
+
+
+\newcommand{\sm}{\setminus}						
+\newcommand{\ins}{\subseteq} 					
+\newcommand{\sni}{\supseteq} 					
+
+%or mathrel? instead of mathbin
+\newcommand*{\tut}[1][]{\mathrel{\tikz [baseline=-0.25ex,-, #1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\tnt}[1][]{\mathrel{\tikz [baseline=-0.25ex,-, #1] \draw [#1] (0pt,0.5ex) -- node[strike out,draw,-]{} (1.3em,0.5ex);}}
+\newcommand*{\tuh}[1][]{\mathrel{\tikz [baseline=-0.25ex,-latex, #1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\hut}[1][]{\mathrel{\tikz [baseline=-0.25ex,latex-, #1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\huh}[1][]{\mathrel{\tikz [baseline=-0.25ex,latex-latex, #1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\ouo}[1][]{\mathrel{\tikz [baseline=-0.25ex,-, #1] \draw [
+decoration={markings, mark=at position 0 with {\draw circle (1pt);}, 
+mark=at position 1 with {\draw circle (1pt);}}, postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\tuo}[1][]{\mathrel{\tikz [baseline=-0.25ex,-, #1] \draw [
+decoration={markings, mark=at position 1 with {\draw circle (1pt);}}, postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\huo}[1][]{\mathrel{\tikz [baseline=-0.25ex,latex-, #1] \draw [
+decoration={markings, mark=at position 1 with {\draw circle (1pt);}}, postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\out}[1][]{\mathrel{\tikz [baseline=-0.25ex,-, #1] \draw [
+decoration={markings, mark=at position 0 with {\draw circle (1pt);}}, postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\ouh}[1][]{\mathrel{\tikz [baseline=-0.25ex,-latex, #1] \draw [
+decoration={markings, mark=at position 0 with {\draw circle (1pt);}}, postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+%strike out
+\newcommand*{\toh}[1][]{\mathrel{\tikz [baseline=-0.25ex,-latex, #1] \draw [
+decoration={markings, mark=at position 0.4 with {\draw[fill] circle (0.8pt);}},
+        postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\hot}[1][]{\mathrel{\tikz [baseline=-0.25ex,latex-, #1] \draw [
+decoration={markings, mark=at position 0.6 with {\draw[fill] circle (0.8pt);}},
+        postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+\newcommand*{\tot}[1][]{\mathrel{\tikz [baseline=-0.25ex,-, #1] \draw [
+decoration={markings, mark=at position 0.5 with {\draw[fill] circle (0.8pt);}},
+        postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}				
+\newcommand*{\hoh}[1][]{\mathrel{\tikz [baseline=-0.25ex,latex-latex, #1] \draw [
+decoration={markings, mark=at position 0.5 with {\draw[fill] circle (0.8pt);}},
+        postaction={decorate},#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}
+
+\newcommand*{\rars}{\begin{array}{c}\huh\\[-10pt]\tuh\end{array}}
+\newcommand*{\lars}{\begin{array}{c}\huh\\[-10pt]\hut\end{array}}
+\newcommand*{\allars}{\begin{array}{c}\huh\\[-10pt]\tuh\\[-10pt]\hut\\[-10pt]\tut\end{array}}
+\newcommand*{\dars}{\begin{array}{c}\huh\\[-10pt]\tuh\\[-10pt]\hut\end{array}}
+
+%\newcommand{\tuh}{\rightarrow}
+%\newcommand{\hut}{\leftarrow}
+%\newcommand{\huh}{\leftrightarrow}
+%\newcommand{\tut}{-}
+
+
+\newcommand{\ot}{\leftarrow}
+\newcommand{\oto}{\leftrightarrow}
+
+
+
+\newcommand{\srj}{\twoheadrightarrow}
+\newcommand{\inj}{\hookrightarrow}
+
+\renewcommand{\Pr}{\mathbb{P}} 		
+\newcommand{\E}{\mathbb{E}}
+% \newcommand{\I}{\mathbbm{1}}
+% \newcommand{\I}{\mathds{1}}
+\newcommand{\Pa}{\mathrm{Pa}} 		
+\newcommand{\pa}{\mathrm{pa}} 		
+\newcommand{\Ch}{\mathrm{Ch}} 		
+\newcommand{\Anc}{\mathrm{Anc}} 		
+\newcommand{\AnCl}{\mathrm{AnCl}} 
+\newcommand{\Desc}{\mathrm{Desc}} 	
+\newcommand{\Dist}{\mathrm{Dist}} 
+\newcommand{\Pred}{\mathrm{Pred}} 
+\newcommand{\Sc}{\mathrm{Sc}}
+\newcommand{\NonDesc}{\mathrm{NonDesc}}
+%\DeclareMathOperator*{\Indep}{\perp\!\!\!\perp} 
+%\DeclareMathOperator*{\nIndep}{\cancel\Indep} 
+\DeclareMathOperator*{\Indep}{{\,\perp\mkern-12mu\perp\,}}
+\DeclareMathOperator*{\nIndep}{{\,\not\mkern-1mu\perp\mkern-12mu\perp\,}}
+\DeclareMathOperator*{\given}{|}
+\DeclareMathOperator*{\diag}{\mathrm{diag}}
+\DeclareMathOperator{\doit}{do}
+\newcommand{\moral}{\mathrm{mor}}	
+\newcommand{\marg}{\mathrm{mar}}
+\newcommand{\aug}{\mathrm{aug}}		
+\newcommand{\can}{\mathrm{can}}	
+\newcommand{\ass}{\mathrm{ass}}		
+\newcommand{\augacy}{\mathrm{augacy}}
+\newcommand{\acag}{\mathrm{acag}}			
+\newcommand{\acy}{\mathrm{acy}}	
+\newcommand{\ske}{\mathrm{ske}}	
+\newcommand{\HEDG}{HEDG}
+
+\newcommand{\ReLU}{\mathrm{ReLU}} 
+
+\newcommand{\lp}{\left ( }
+\newcommand{\rp}{\right ) }
+\newcommand{\lB}{\left [ }
+\newcommand{\rB}{\right ] }
+\newcommand{\lC}{\left \{ }
+\newcommand{\rC}{\left \} }
+
+\newcommand{\hyle}[2]{\emph{#2}}
+\newcommand{\hyte}[2]{\emph{#2}}
+\newcommand{\hyl}[2]{\hyperlink{#1}{#2}}
+\newcommand{\hyt}[2]{\hypertarget{#1}{#2}}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\xto}[1]{\stackrel{#1}{\to}}
+\newcommand{\eRN}{\overline{\mathbb{R}}}
+\newcommand{\RN}{\mathbb{R}}

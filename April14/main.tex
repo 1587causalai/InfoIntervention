@@ -1,0 +1,126 @@
+%-------Document class UAI------------------  
+
+\documentclass[letterpaper, onecolumn]{article}
+\usepackage{uai2018}
+\usepackage[margin=1in]{geometry}
+\usepackage{times}
+\usepackage{CJK}
+% \usepackage[utf8]{inputenc} 
+
+
+
+
+%---------Schrift & Sprache------------------------
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsopn}
+\usepackage{url}
+\usepackage{smallref}
+%\usepackage{hyperref}
+\usepackage{enumerate, amssymb, amsmath, bm}
+
+\newcommand{\changefont}[3]{\fontfamily{#1}\fontseries{#2}\fontshape{#3}\selectfont} 
+\newcommand{\Joris}[1]{{\color{magenta}Joris: #1}}
+\newcommand{\Patrick}[1]{{\color{orange}Patrick: #1}}
+\newcommand{\Sara}[1]{{\color{blue}Sara: #1}}
+\newcommand{\Ord}{\mathrm{Ord}}
+\newcommand{\Rt}{\mathrm{Root}}
+\newcommand{\info}{\mathrm{\sigma}}
+
+\newcommand\Prb{\mathbb{P}}
+\newcommand\SCM{\textbf{SCM}}
+\newcommand{\indep}{\perp\mkern-9.5mu\perp}
+\newcommand{\notindep}{\centernot{\independent}}
+
+
+%---------Referenzen----------------------------
+
+\usepackage{cite}		%nichtmit natmib zusammen
+
+%-----------Mathepakete--------------------------
+
+\usepackage{amsmath, amsfonts} 
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+\usepackage{cancel}
+\usepackage{dsfont}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta, calc}
+\usetikzlibrary{shapes,positioning,decorations.markings}
+\usetikzlibrary{arrows, automata, chains, positioning, shapes.geometric, shapes.symbols}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{tikz-qtree}
+\usepackage{tikz-qtree-compat}
+\usepackage{color}
+\usepackage{ upgreek }
+\usetikzlibrary{shapes,decorations,arrows,calc,arrows.meta,fit,positioning}
+\tikzset{
+	-Latex,auto,node distance =1 cm and 1 cm,semithick,
+	state/.style ={ellipse, draw, minimum width = 0.7 cm},
+	point/.style = {circle, draw, inner sep=0.04cm,fill,node contents={}},
+	bidirected/.style={Latex-Latex,dashed},
+	el/.style = {inner sep=2pt, align=left, sloped}
+}
+
+%-----------------
+
+\input{thm}
+\input{shorts}
+
+%%%%%%%%%%%%TITLE AUTHORS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Set the typeface to Times Roman
+\usepackage{times}
+
+% For listing ASP code
+\usepackage{listings}
+
+
+
+\title{Info Intervention}
+
+\author{ {\bf Gong Heyang}\\
+	University of \\ Science and Technology of China\\
+	\url{gonghy@mail.ustc.edu.cn}\\
+	\And
+	{\bf Zhu Ke}\\
+	University of HongKong \\
+	\url{mazhuke@hku.hk}\\
+}
+
+%%%%%%%%%%%%ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	\begin{CJK*}{UTF8}{gbsn}
+		\maketitle
+		\begin{abstract}
+		    Pearl asserts that all three main obstacles for strong AI can be overcome using causal modeling tools, in particular, causal diagrams and their associated logic.  We point out issues of existing definition of  Pearl's \textit{do intervention} (also known as "surgical" or "atomatic" or "perfect"  intervention) and other notations for causation. To highlight the view of causality as information transfer we propose the info intervention, which intervening the sending out information. It turns out that \emph{info intervention} $\info(\cdot)$ is very competitive in formalizing causal queries, identification of cause-effect, and it can solve (or alleviate) some issues in the existing causal notations. We conclude that $\info(\cdot)$-operator is a necessary and useful tool for causal inference.
+		\end{abstract}
+		
+		\input{files/Intro.tex}
+		\input{files/info_intervention.tex}
+		
+		
+		
+		
+		\bibliographystyle{plain}
+		\small
+		\bibliography{reference.bib}
+		
+		\newpage
+		\appendix
+		\normalsize
+		%\input{supplementary}
+		
+		
+	\end{CJK*}
+\end{document}
+
+
+
+
+

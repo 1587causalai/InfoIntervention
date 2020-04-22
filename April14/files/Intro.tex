@@ -1,0 +1,104 @@
+\section{Introduction}
+ 
+The hard open problems of machinine learning are intrinsically related to causality\cite{Scholkopf2019}.  Three fundamental obstacles are standing in our way to strong AI, including robustnesss(or adaptability), explainability and lacking of understanding cause-effect connections.  Pearl  asserts that all these obstacles can be overcome using causal modeling tools, in particular, causal diagrams  and their associated logic\cite{Pearl2019seven}.  % a.k.a. structural causal models(SCMs).  
+How can machines represent causal knowledge in a way that would enable them to access the necessary information swiftly, answer questions correctly, and do it with ease, as a human can? This question, which is referred as "mini-Turning test" for AI, has been claimed as Pearl's life work\cite{Pearl2018}. 
+
+
+ 
+
+Pearl propose the framework of structural causal models(SCM) which deploys three parts, including graphical models, structural equations, and counterfactual and interventional logic. Graphical models serve as a language for representing what we know about the world, counterfactuals help us to articulate what we want to know, while structural equations serve to tie the two together in a solid semantics. In the meanwhile, competitive causal notations and frameworks, such as Dawid's regime indicator framework and Rubin's potential outcome, are also used with prons and cons\cite{Marloes2018, MigualA.Hernan2019, Imbens2015}. These different approaches to formalizing causal inquiries which, despite subtle differences, all build on a probabilistic graphical representation of the problem at hand. 
+
+
+ 
+Back to the very nature of modeling, a model is an idealized representation of reality that hightlights some aspects and ignores others. Wheeler claims all things physical are information-theoretic in origin \footnote{It from bit symbolizes the idea that every time of the physical world has at bottom...an immaterial source and explanation...that all things physical are information-theoretic in origin and that this is a participatory universe. ---- John A. Wheeler} and Bernhard highlights the information processing aspect of causal modeling in his work\cite{Scholkopf2019}. The main focus of current causal models are modeling the disentangled form of the joint distribution, while there are certain degree of ignoring the information processing aspect. Pearl's $do$-operator is one of the most important causal semantics or notations during the past three decades of the \emph{causal revolution}.  The haunting "confounding" problem has been demystified with $do$-calculus and many other achievements, but criticisms of this notation still exist, especially on the empirical interpretation when applied to non-manipulable variables such as race, obesity, or cholesterol level\cite{Pearl2019do}.
+% Physically, Einstein's theory of relativity tells us that time, length, and quality can change in different coordinate systems, but the causal relationship of events remain. 
+% This provides us an intuition of invariant causal mechanism and strong objection to "removing of causal mechanisms" or "a minimal change on mechanisms" which is exactly the meaning of Pearl's intervention. Moreover, intensive theoretical effects torward the development of SCM have been made in the recent years. One central topic is how to do causal inference beyond DAGs. Some of them focus on the theoretical aspects of cyclic SCM \cite{Bongers2016, Forre2019do, Forre2018discovery}, and some of them connect equilibrums to feedbacks/cycles \cite{Laurizen2002, Blom2018, Bongers2018}. However, many measure-theoretic and other complications arise in the presence of cycles,  and these difficulties may explain why in most of the SCM literature so far acyclicity has been assumed, even though many causal systems in nature involve feedbacks/cycles.
+
+The main idea of regime indicator is to consider the 'seeing' and 'doing' as two types of regimes, a natural one and a set of interventional ones \cite{dawid2015statistical}. This notation has advantange in representing soft interventions  which do not fix a variable at a value, but just 'nudge' it, adding a random error, or somehow shift its distribution \cite{eberhardt2007interventions} and dynamic intervention.  The property of stability \cite{dawid2010identifying} or invariance \cite{hausman1999independence} of conditional distributions across regimes is required to predict effects of interventions from observational data and thus making regime less popular. The proposing of this notation reveals some weakness of $do$ intervention in representing variaous interventions used in empirical applications. Robins' potential outcome is defined as the hypothetical value of a variable if we force an observed variable to a given value which is essentially based on $do$ intervention. An attractive feature of Robins' approach is that it largely avoids making counterfactual independence assumptions that are experimentally untestable and potential outcomes can be combined with graphs though may not be immediately obvious\cite{Richardson2011, richardson2013single, Marloes2018}.  Much of the  work in economics is closer in spirit to the potential outcome framework\cite{Imbens2019}. 
+
+ 
+
+All these approaches to causality can be combined with graphs and focus on modeling the joint distribution associated with the graph. Each approach has some its own issues,  here we are not working on those issue within the original framework. In contrast,  we will interpret causality as information transfer to highlight the information-theoretic aspect of causal models  by proposing a new concept of info intervention to go beyond traditional causal notations. We then will see that some existing issues  can be circumvented or alleviated. 
+
+  
+In this article, we first will review the frameworks of causal models and discuss issues of graphical or structural causal models. Then we propose the info intervention as an causal notation other than Pearl’s do intervention semantic, which emphasis the information aspects of causal models, and then show how (or exhibit potentials) to solve (or alleviate) those issues. After that, we use the simplest case for causal modeling --- directed acyclic graphs to explain info intervention and associated three-level question with example. The next part of this article presents the causal calculus for info intervention using the $\info(\cdot)$ operator corresponding to Pearl's 3 rules, and gives examples of application. We conclude that $\info(\cdot)$-operator is a necessary and useful tool for causal inference and info intervention may unify interventionism causality and understanding causality as information transfer.
+
+
+\section{Preliminaries}
+
+ 
+The notation of causality has been much examined, discussed and debated in science and philosophy over many centuries. The randomized controlled experiment(RCT) used to be a "golden" standard for causal inference, while causal inference for observational data usually relies on graphical assumptions of the underlying data generating process. Two widely used frameworks for causality have been developed including Pearl's causal diagrams and potential outcomes.
+
+
+\begin{Def}[Structural Causal Model]
+	\label{SCM-def}
+	A \emph{structural causal model (SCM \cite{Pearl2009, Pearl2018})} by definition consists of: 
+	\begin{enumerate}
+		\setlength\itemsep{0em}
+		\item A set of nodes $V^+=U \dot \cup V$ \footnote{$U \dot \cup V$ means the disjoint union of sets $U$ and $V$.}, where elements of $V$ correspond to endogenous variables and elements of $U$ to exogenous(or Latent) variables,
+		\item An endogenous/exogenous space $\Xcal_v$ for every $v \in V^+$, $\Xcal:=\prod_{v \in V^+}\Xcal_v$,
+		\item A product probability measure $\Pr:=\Pr_U=\otimes_{u \in U} \Pr_u$ on the latent space $\prod_{u \in U} \Xcal_u$. 
+		
+		\item A directed graph structure $G^+=(V^+, E^+)$, with a system of structural equations  $f_V = (f_v)_{v \in V}$:
+		\[f_v: \; \prod_{s \in  \Pa^{G^+}(v)}\Xcal_s \to \Xcal_v,\]
+		where $\Ch^{G^+}(U) \subseteq V$ and all functions $f_V$ are measurable，$Ch(\cdot ), Pa()$. 
+	\end{enumerate}
+	The SCM can be summarized by the tuple $M=(G^+,\Xcal,\Pr, f)$. $G^+$ is referred as the \emph{augmented functional graph} while the \emph{functional graph} which includes only endogenous variables, denoted as $G$ . 
+\end{Def}
+
+
+To model an action $do(X=x)$ one performs a mininal change necessary for establishiing the antecedent $X=x$, while leaving the rest of the model intact. This calls for removing the mechanism equation that nominally assigns values to variable $X$, and replacing it with a new equation, $X=x$, that enforces the intent of the specified action.  Formally, the $do$ intervention is defined by:
+
+\begin{Def}[do intervention]
+	\label{def:p-intervention}
+	Given an \SCM $M=(G^+,\Xcal,\Pr, f)$, $I \subseteq V$, the \emph{do intervention} \footnote{A $do$ intervention is usually imposed on endogenous variables.} $do(X_I=x_I)$ maps $M$ to the intervened model $M_{do(X_I = x_I)} = (G^+,\Xcal,\Pr, \tilde{f})$ where
+	$$
+	\begin{aligned}
+	\tilde f_i(X_U,X_V) := \begin{cases}
+	x_i & i \in I \\
+	f_i(X_U,X_V) & i \in V \setminus I \,.
+	\end{cases}
+	\end{aligned}
+	$$
+\end{Def}
+
+
+% 有点唐突
+There are many theoretical and technical complications in the case of cyclic causal graphs \cite{Bongers2016}, but for the special case of directed acyclic graphs(DAGs), causal semantics could be well defined without any complications in the following way:
+% \cite{Marloes2018} 
+
+\begin{Def}[Causal DAG]
+	Consider a DAG $G=(V, E)$ and a random vector $X = (X_1, ..., X_K)$ with distribution $p$. Then $G$ is called a causal DAG for $X$ if $p$ satisfies the following:
+	\begin{enumerate}[(i)]
+		\setlength\itemsep{0em}
+		\item $p$ factorizes, and thus is Markov, according to $G$, and
+		\item for any $A \subset V$ and any $\tilde{x}_A, x_B$ in the domains of $X_A, X_B$, where $B = V/A$, 
+		$$
+p(x	| do(\tilde{x}_A)) = \prod_{k \in B} p(x_k|x_{pa(k)})  \prod_{i \in A} \mathbb{I}(x_j = \tilde{x}_j)
+		$$
+	\end{enumerate}
+\end{Def}
+
+ 
+
+The major obstacle to draw causal inference from data known as "deconfounded" is demystified through a graphical criterion called "backdoor" for causal DAGs. And for models where the backdoor criterion does not hold, a symbolic engine called "do-calculus"(Pearl's 3-rules of causal calculus)  is available. 
+
+% Regime indicator 为什么提出来。
+% There are other two notations for causal modeling. The key idea of \emph{regime indicator} is to consider 'seeing' and 'doing' as two types of regimes, a natural one and a set of interventional ones. $p(x; \sigma = s) = p(x; s)$. Here, regimes refer to external circumstances under which we expect some aspects of the joint distribution of X to differ.
+
+The other notation in the context of causal inference uses \emph{potential(counterfactual) outcomes}. We consider some causal effect of action $A$ on an outcome $Y$, we define the potential outcome $Y(\tilde{a})$(or $Y^{\tilde{a}}$) to be the value of $Y$ that we would observe if $A$ were set (forced) to $\tilde{a}$.  This approach is essentially based on perfect(atomatic) interventions. The condition for cause-effect estimation from observational data(counterpart of backdoor criteria)  for potential outcome is \emph{exchangeability}. 
+
+\begin{Def}[Exchangeability or Ignorability]
+	Exchangeability means that the counterfactual outcome and the actual treatment(action) are independent, or $Y^a \indep A$, for all values $a$. 
+\end{Def}
+
+
+ 
+% By the \textbf{common cause principle} that for two statistically dependent variables there will always be a third cause variable explains there dependence, we can assume the independence of exogenous variables. In other words, 
+% \begin{Def}[Causal Sufficient]
+% 	If all dependencies among variables are captured by the causal model, then we call it causally sufficient.
+% \end{Def}
+
+We have reviewed the main causal notations currently used by researchers. Now it's time for us to present our new notations for causal models.
+
+% Pros and cons are among the above causal notations, we now present our semantic of intervention under the information view of causal models.
