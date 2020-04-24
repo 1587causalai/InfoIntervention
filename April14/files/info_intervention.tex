@@ -3,31 +3,57 @@
 
 
  
-\paragraph{ Causality as Information Transfer.}  From the philosophical point of view, the study of the concept of causality started with Aristotle (384 bc–322 bc) who proposed four different types of causes. David Hume initiated the modern approach of causality. He recognized the importance of causal beliefs for human understanding. The modern concept of causality has been deeply influenced by physics and psychology during the 20th century and has a deep impact on causality in neurosciences. "Law-like" causality and interventionalist causality are among the most popular interpretations. There are two main reasons to think that understanding causality as information transfer could be beneficial and applicable to the mind-brain debate: (1) the brain is an information processing machine, and (2) the way we talk about the mental to physical relationship seems similar to the relationship between the abstract content of information and its physical realization \cite{feltz2019free}.
+% 需要更多的文献支持
+% 从从例子出发，给出定义，然后哲学讨论。
 
-What is causality as information transfer? Collier himself defines it as the transfer of a particular quantity of information from one state of a system to another. Physical causation is a special case in which physical information instances are transferred from one state of physical system to another. (Collier, 1999, p. 215). For the Causal Exclusion question: was it the flashing light or the belief that it signifies the low salt level that made us go and add the salt to our dishwasher? {{The latter is thought to be the cause of our action in this article}}.
+
 
 % In general, we need to answer questions such as what if I make something happpen.
-\paragraph{Problems of $do$-intervention.} Causal questions, such as what if I make something happen, can be formalized by $do$ operator, but still, controversial on empirical understanding for $do$ intervention exist. In many settings, a $do$ intervention which forces some variable to a given value is somewhat idealized or hypothetical. How would one manipulate variables such as race, obesity, or cholesterol level and how would one, for instance, fix the dietary fat intake or BMI of a person exactly at a given value?   Moreover, the notation suggests that the manner in which  a variable is manipulated is irrelevant to the intervened causal model. However, in practice it may matter whether a medical treatment is, for example, given orally or as an injection \footnote{Some researchers refer it as different version of treatment\cite{Hernan2019}.}. For greater generality, we may therefore want to consider a possibly larger and more detailed set $S$ of different regimes describing different circumstances under which a system might be observed and manipulated. Each regime then induces a different probability measure for the joint distribution of $X$. In short, both how and what actions are taken have effect on the result\cite{Marloes2018}.  In order to avoid those problems and achieve a better represention of reality, we could use causal semantics and notations based on understanding causality as information transfer.
+
+\paragraph{Problems of $do$-intervention.} Causal questions, such as what if I make something happen, can be formalized by $do$ operator, but still, controversial on empirical understanding for $do$ intervention exist(Pearl wrote at least two papers to address the this problem \cite{Pearl2019do, pearl2018does}). In many settings, a $do$ intervention which forces some variable to a given value is somewhat idealized or hypothetical. How would one manipulate variables such as race, obesity, or cholesterol level and how would one, for instance, fix the dietary fat intake or BMI of a person exactly at a given value?
+
+\begin{Eg}[A real world example]
+    \label{eg:real}
+	We consider domain variables \emph{Exercise, Cholesterol, Occupation, Income, Diet}, and assume a causal relationship among them in the following Figure 1.
+    \begin{figure}[ht]
+        \label{fig:real}
+    	\centering
+    	\begin{tikzpicture}
+    	\node[state] (O) at (0.0, 2.0) {$Occupation$};
+    	\node[state] (d) at (0,0) {$Exercise$};
+    	\node[state] (I) at (2.9, 2.0) {$Income$};
+    	\node[state] (x) at (2.3,0.8) {$Age$};
+    	\node[state] (D) at (4.5, 1.1) {$Diet$};
+    	\node[state] (y) at (4.5,0) {$Cholesterol$};
+    	\path (x) edge (d);
+    	\path (x) edge (y);
+    	\path (d) edge (y);
+    	\path (O) edge (d);
+    	\path (x) edge (I);
+    	\path (O) edge (I);
+    	\path (I) edge (D);
+    	\path (D) edge (y);
+    	\end{tikzpicture}
+    	\caption{Causal effect of exercise on cholesterol level.}
+    	\label{fig:exercise}
+    \end{figure}
+\end{Eg}
+
+In this example, the empirical interpretation of the $do(x)$ operator when applied  to non-manipulable variables \emph{Age} and \emph{Cholesterol} can be of controversial. 
+
+Moreover, the notation suggests that the manner in which  a variable is manipulated is irrelevant to the intervened causal model. However, in practice it may matter whether a medical treatment is, for example, given orally or as an injection(Some researchers refer it as different version of treatment\cite{Hernan2019}.). For greater generality, we may therefore want to consider a possibly larger and more detailed set $S$ of different regimes describing different circumstances under which a system might be observed and manipulated. Each regime then induces a different probability measure for the joint distribution of $X$. In short, both how and what actions are taken have effect on the result\cite{Marloes2018}. 
 
 
-Now we presents our main ideas:
 
-\begin{Prin}[Causality as Information Transfer]
-	\label{Prin:info}
-	 For causal model in view of causality as information transfer:	
-	\begin{enumerate}[i)]
-		\item If the information of a node $X$ has an effect on another node $Y$ while fix other nodes, then $X$ is a direct cause of $Y$. 
-		\item Directed edges are information channels which can accept information from its input node. 
-		\item Nodes are causal mechanisms to process the information accepting from its input edges. 
-		% Events in information field of a cause variable always happens before(or simultaneouly with) events in information field of an effect variable.
-		% For every cause-effect relation from $X$ to $Y$ in the causal model, it implies that all events in $\sigma(X)$ happen before(or simultaneously) events in $\sigma(Y)$, where $\sigma(U)$ is the generated sigma-field(information-field) by random variable $U$. 
-%		\item Every node/variable in the causal model represents a causal mechanism which accepts informations from its input edges and sends out information of its default state to the output edges.
-	\end{enumerate}	
-\end{Prin}
+These problems are NOT sign of anything wrong with Pearl's $do$ intervention, but suggest that $do$ is not complete for formalizing real world causal queries. In order to achieve a better representation of reality, we introduce the causal semantics and notations based on understanding causality as information transfer. For causal model in view of causality as information transfer, we usually assume:	
+\begin{enumerate}[1)]
+	\item If the information of node $X$ has an effect on other node $Y$ while fix other nodes, then $X$ is a direct cause of $Y$. 
+	\item Directed edges are information channels which can accept information from its input node. 
+	\item Nodes are causal mechanisms to process the information accepting from its input edges. 
+\end{enumerate}	
 
 
-We will give the definiton of \emph{info intervention} for SCMs and Causal DAGs. For SCMs, we could define an intervention output information of a node. The formal definiton is given below:
+We first present the definition of \emph{info intervention} on a SCM. The formal definition is given below:
 
 \begin{Def}[Info intervention for \SCM]
 	\label{def:i-intervention}
@@ -43,8 +69,17 @@ We will give the definiton of \emph{info intervention} for SCMs and Causal DAGs.
 	the causal graph of info intervened SCM $M_{\info(X_I=x_I)}$  is the graph that removes all output edges from $I$ in $G^+$.
 \end{Def}
 
-For interventional causality, {{we perform perturbations to determine the causal content\cite{zenil2019causal} of an evolving system}}. In a network, for example, a perturbation can be deleting a node or deleting a link. The $do(X=x)$ intervention, which removes the causal mechanism represented by the node  from the model,  can be considered as deleting of a node but not a link. Our info intervention $\sigma(X=x)$, which force the output edges of node $X$ accept the fixed information $X=x$,  can be interpreted as cutting off information transfer form node $X$ to its children but keeping the mechanisms represented by  $X$. The critical difference between definitions of $do$ intervention and info intervention is that the causal mechanisms do not change. Instead, the hypothesis minimal change by info intervention is the information accepted by the output edges of a node. In other words, structural equations $f_V$ changed for $do$ intervention, in contrast, it keeps the same for info intervention. Let's see an example.
 
+
+In the Example \ref{eg:real}, $do(Age = 38)$ represents a causal question that what if make the the non-manipulable variable \emph{Age} equals 38, which can be of controversial. Although we cannot force \emph{Age} to 38, we can set out the information that the age is 38. This is where info intervention applies. 
+
+
+For interventionism causality(or manipulability theories of causation), {{we perform perturbations to determine the causal content\cite{zenil2019causal} of an evolving system}}. A  perturbation can be deleting a node or deleting a link. The $do(X=x)$ intervention, which removes the causal mechanism represented by the node  from the model, can be considered as deleting of a node but not a link. Our info intervention $\sigma(X=x)$, which force the output edges of node $X$ accept the fixed information $X=x$,  can be interpreted as cutting off information transfer(deleting a link) form node $X$ to its children but keeping the mechanisms represented by $X$.
+
+So the critical difference between definitions of $do$ intervention and info intervention is that the causal mechanisms do not change. Instead, the hypothesis minimal change by info intervention is the information accepted by the output edges of a node. In other words, structural equations $f_V$ changed for $do$ intervention, in contrast, it keeps the same for info intervention. Let's see an example.
+
+
+% 箭头代表有方向，等于符号代表没有方向。
 
 \begin{Eg}
 	\label{eg1}
@@ -82,7 +117,7 @@ For interventional causality, {{we perform perturbations to determine the causal
 	
 \end{Eg}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\begin{subfigure}[tb]{1.0\textwidth}
 		\centering
 		\begin{tikzpicture}
@@ -115,7 +150,7 @@ For interventional causality, {{we perform perturbations to determine the causal
 		\path (x) edge (y);
 		\path (d) edge (y);
 		\end{tikzpicture}
-		\caption{$do$ intervention.}
+		\caption{do intervention $do(T=t)$.}
 		\label{fig:SCM2}
 	\end{subfigure}
 	\begin{subfigure}[tb]{0.5\textwidth}
@@ -133,45 +168,22 @@ For interventional causality, {{we perform perturbations to determine the causal
 		\path (x) edge (y);
 		\path (x) edge (d);
 		\end{tikzpicture}
-		\caption{Info intervention.}
+		\caption{Info intervention $\info(T=t)$.}
 		\label{fig:SCM3}
 	\end{subfigure}
 	\caption{A simple SCM with treatment $T$, confounders $X$, outcome $Y$ and two latent variables $\epsilon_X, \epsilon_T$. }
 	\label{fig:info-VS-$do$}
 \end{figure}
-%
-%\begin{figure}[h]
-%	\begin{subfigure}[tb]{0.2\textwidth}
-%		\centering
-%		\begin{tikzpicture}
-%		\node[state] (d) at (0,0) {$t$};
-%		\node[state] (x) at (0.5,1.5) {$X$};
-%		\node[state] (y) at (2.3,0) {$Y$};
-%		\path (x) edge (y);
-%		\path (d) edge (y);
-%		\end{tikzpicture}
-%		\caption{$do$ intervention.}
-%		\label{fig:SCM4}
-%	\end{subfigure}
-%	\hfill
-%	\begin{subfigure}[tb]{0.2\textwidth}
-%		\centering
-%		\begin{tikzpicture}
-%		\node[state] (d) at (0,0) {$T$};
-%		\node[state] (x) at (0.5,1.5) {$X$};
-%		\node[state] (y) at (1.8, 0) {$Y$};
-%		\path (x) edge (y);
-%		\path (x) edge (d);
-%		\end{tikzpicture}
-%		\caption{info intervention.}
-%		\label{fig:SCM5}
-%	\end{subfigure}
-%	\caption{Invened SCM without exogenous  and constant variables.}
-%	\label{fig:eg1}
-%\end{figure}
 
-It is clear that those two intervened SCM are different from the intervened causal mechanisms $f_T, f_X, f_Y$. Particularly, info intervention keeps the causal mechanisms unchanged while $do$ intervention doesn't. Moreover, for empirical interpretation of info intervention, we don't have problem of treatment variables such as race, obesity or cholesterol level. For example, if $T$ represents race and $Y$ represent whether hired or not, then an $do$ intervention questions would be what if I manipulate my race to black. This causes an issue of non-manipulate variables problem. But for info intervention view, the question becomes "what if other nodes receive an information that the race is black?".  In our example, the intervened variable $T$ becomes a constant for $do$ intervention while it remains the same  for info intervention. 
+It is clear that those two intervened SCM are different from the intervened causal mechanisms $f_T, f_X, f_Y$. Particularly, info intervention keeps the causal mechanisms unchanged while $do$ intervention doesn't. Moreover, for empirical interpretation of info intervention, we don't have problem of non-manipulable variables such as race, obesity or cholesterol level. For example, if $T$ represents race and $Y$ represent whether hired or not, then an $do$ intervention questions would be what if I manipulate my race to black. This causes an issue of non-manipulate variables problem. But for info intervention view, the question becomes "what if other nodes receive an information that the race is black?".  In our example, the intervened variable $T$ becomes a constant $t$ for $do(T=t)$ intervention while it remains the same for info intervention $\info(T=t)$. 
 
+
+\paragraph{Causality as Information Transfer.}  From the philosophical point of view, the study of the concept of causality started with Aristotle (384 bc–322 bc) who proposed four different types of causes. David Hume initiated the modern approach of causality. He recognized the importance of causal beliefs for human understanding. The modern concept of causality has been deeply influenced by physics and psychology during the 20th century and has a deep impact on causality in neuroscience. "Law-like" causality and interventionalist(or manipulationist) causality are among the most popular interpretations.  What is causality as information transfer? Collier himself defines it as the transfer of a particular quantity of information from one state of a system to another\cite{collier1999causation}. Physical causation is a special case in which physical information instances are transferred from one state of physical system to another. (Collier, 1999, p. 215).There are two main reasons to think that understanding causality as information transfer could be beneficial and applicable to the mind-brain debate: (1) the brain is an information processing machine, and (2) the way we talk about the mental to physical relationship seems similar to the relationship between the abstract content of information and its physical realization \cite{feltz2019free}. For the Causal Exclusion question: was it the flashing light or the belief that it signifies the low salt level that made us go and add the salt to our dishwasher? {{The latter is thought to be the cause of our action in this article}}.
+
+
+% 需要说清楚，我们关注的点是干预后的分布，而不仅仅是 $Y$ 的分布。
+
+% 有些必须用 $do$ intervention，比如RCT用药与否，有些必须用 info intervention 比如年龄对收入的影响。举例说明有些问题适合 do intervention, 有些适合用 info intervention. 
 
 
 %
@@ -235,14 +247,9 @@ It is clear that those two intervened SCM are different from the intervened caus
 % For the simplest case that no causal relathionship among visible variable, see Remark \ref{rem1}.  An $do$ intervened SCM would be the same as the original SCM except for those intervened variables. For info intervention, the intervened SCM would exactly the same as the original SCM but the informations sending out from intervened variables change to the intervened values. 
 
 
-
-
-
-
-
 \section{Info Causal DAGs}
 
-In the previous section, we have illustrated the idea of understanding causality as information transfer, and given the definition of information intervention $\sigma(x)$ for SCMs. Now we are going to focus on the directed acyclic graphs(DAGs) for illustration of causal semantics and notations based on $\sigma(\cdot)$-operator.
+In the previous section, we have illustrated the idea of understanding causality as information transfer, and given the definition of information intervention $\info(X =x)$ for SCMs. Now we are going to focus on the directed acyclic graphs(DAGs) for illustration of causal semantics and notations based on $\sigma(\cdot)$-operator.
 
 First, we give the definition of info causal DAGs based on info intervention, corresponding to causal DAGs based on $do$ intervention.
 
@@ -307,36 +314,10 @@ Compared to intervened graph for intervention $do(X=x)$ which deletes all input 
 
 % 信息干预做的事情是 $do$ intervention, 我们的信息干预模型联合了两个框架
 
-\begin{Eg}[A real world example]
-	We consider domain variables \emph{Exercise, Cholesterol, Occupation, Income, Diet}, and assumming a causal relationship among them in Figure \ref{fig:exercise}. 
-\end{Eg}
 
 
 
 
-\begin{figure}[h]
-	\centering
-	\begin{tikzpicture}
-	\node[state] (O) at (0.0, 2.0) {$Occupation$};
-	\node[state] (d) at (0,0) {$Exercise$};
-	\node[state] (I) at (2.9, 2.0) {$Income$};
-	\node[state] (x) at (2.3,0.8) {$Age$};
-	\node[state] (D) at (4.5, 1.1) {$Diet$};
-	\node[state] (y) at (4.5,0) {$Cholesterol$};
-	\path (x) edge (d);
-	\path (x) edge (y);
-	\path (d) edge (y);
-	\path (O) edge (d);
-	\path (x) edge (I);
-	%	\path (O) edge (x);
-%	\path (I) edge (d);
-	\path (O) edge (I);
-	\path (I) edge (D);
-	\path (D) edge (y);
-	\end{tikzpicture}
-	\caption{Causal effect of exercise on cholesterol level.}
-	\label{fig:exercise}
-\end{figure}
 
 
 
@@ -367,7 +348,33 @@ Compared to intervened graph for intervention $do(X=x)$ which deletes all input 
 	\end{itemize}
 \end{enumerate}
 
-For $do$ intervention on non-manipulable variable age, the empirical understanding of intervening question that what if I force or manipulate my age to 18,  i.e. $P(\mathrm{Cholestoral}|do(\mathrm{age}=38)$, will be a problem. Although Pearl suggests that we should interpret it in other dimensions \cite{Pearl2019do}, there is no problem like that for info intervention. In our information transfer causality, every node receives information from its input edges and sends out information to its output edges, so the value of each variable is determined by information on its input edges. Interventional question $P(\mathrm{Income}| \sigma(\mathrm{Age}=32)$ can be interpreted as  what will happen to my income/salary if the company receives the message of my age is 32, counterfactual or retrospective question $P(\mathrm{Income}^{\sigma(\mathrm{Age}=32)} | \mathrm{Income}=low, \mathrm{Age}=22)$  can be interpreted as what if the company accept the information that I am 32 given that I am 22 and my income is low.
+Consider the Example \ref{eg:real},
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+	\node[state] (O) at (0.0, 2.0) {$Occupation$};
+	\node[state] (d) at (0,0) {$Exercise$};
+	\node[state] (I) at (2.9, 2.0) {$Income$};
+	\node[state] (x) at (2.3,0.8) {$Age$};
+	\node[state] (D) at (4.5, 1.1) {$Diet$};
+	\node[state] (y) at (4.5,0) {$Cholesterol$};
+	\path (x) edge (d);
+	\path (x) edge (y);
+	\path (d) edge (y);
+	\path (O) edge (d);
+	\path (x) edge (I);
+	%	\path (O) edge (x);
+%	\path (I) edge (d);
+	\path (O) edge (I);
+	\path (I) edge (D);
+	\path (D) edge (y);
+	\end{tikzpicture}
+	\caption{Causal effect of exercise on cholesterol level.}
+	\label{fig:exercise}
+\end{figure}
+
+For $do$ intervention on non-manipulable variable \emph{Age}, the empirical understanding of intervening question that what if I force or manipulate my age to 18,  i.e. $P(\mathrm{Cholestoral}|do(\mathrm{Age}=32)$, will be of controversial, though Pearl suggests that we should interpret it in other dimensions \cite{Pearl2019do}. But, in our information transfer causality, every node receives information from its input edges and sends out information to its output edges, so the value of each variable is determined by information on its input edges. Interventional question $P(\mathrm{Income}| \sigma(\mathrm{Age}=32)$ can be interpreted as  what will happen to my income/salary if the company receives the message of my age is 32, counterfactual or retrospective question $P(\mathrm{Income}^{\sigma(\mathrm{Age}=32)} | \mathrm{Income}=low, \mathrm{Age}=22)$  can be interpreted as what if the company accept the information that I am 32 given that I am 22 and my income is low.
 
 
 

@@ -35,7 +35,7 @@ The notation of causality has been much examined, discussed and debated in scien
 	A \emph{structural causal model (SCM \cite{Pearl2009, Pearl2018})} by definition consists of: 
 	\begin{enumerate}
 		\setlength\itemsep{0em}
-		\item A set of nodes $V^+=U \dot \cup V$ \footnote{$U \dot \cup V$ means the disjoint union of sets $U$ and $V$.}, where elements of $V$ correspond to endogenous variables and elements of $U$ to exogenous(or Latent) variables,
+		\item A set of nodes $V^+=U \dot \cup V$ as the disjoint union of sets $U$ and $V$.), where elements of $V$ correspond to endogenous variables and elements of $U$ to exogenous(or Latent) variables,
 		\item An endogenous/exogenous space $\Xcal_v$ for every $v \in V^+$, $\Xcal:=\prod_{v \in V^+}\Xcal_v$,
 		\item A product probability measure $\Pr:=\Pr_U=\otimes_{u \in U} \Pr_u$ on the latent space $\prod_{u \in U} \Xcal_u$. 
 		
@@ -51,7 +51,7 @@ To model an action $do(X=x)$ one performs a mininal change necessary for establi
 
 \begin{Def}[do intervention]
 	\label{def:p-intervention}
-	Given an \SCM $M=(G^+,\Xcal,\Pr, f)$, $I \subseteq V$, the \emph{do intervention} \footnote{A $do$ intervention is usually imposed on endogenous variables.} $do(X_I=x_I)$ maps $M$ to the intervened model $M_{do(X_I = x_I)} = (G^+,\Xcal,\Pr, \tilde{f})$ where
+	Given an \SCM $M=(G^+,\Xcal,\Pr, f)$, $I \subseteq V$, the \emph{do intervention} $do(X_I=x_I)$ maps $M$ to the intervened model $M_{do(X_I = x_I)} = (G^+,\Xcal,\Pr, \tilde{f})$ where
 	$$
 	\begin{aligned}
 	\tilde f_i(X_U,X_V) := \begin{cases}
