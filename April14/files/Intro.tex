@@ -27,35 +27,41 @@ In this article, we first will review the frameworks of causal models and discus
 \section{Preliminaries}
 
  
-The notation of causality has been much examined, discussed and debated in science and philosophy over many centuries. The randomized controlled experiment(RCT) used to be a "golden" standard for causal inference, while causal inference for observational data usually relies on graphical assumptions of the underlying data generating process. Two widely used frameworks for causality have been developed including Pearl's causal diagrams and potential outcomes.
+The notation of causality has been much examined, discussed and debated in science and philosophy over many centuries. Among many proposed frameworks for causality, Pearl's causal diagrams have been widely used in the real world to study the causal inference for observational data. In this section, we mainly introduce some preliminaries on Pearl's causal diagrams, which build on the structural causal model (\SCM) to make graphical assumptions of the underlying data generating process. 
 
 
-\begin{Def}[Structural Causal Model]
+
+
+\begin{Def}[\SCM\cite{Pearl2009}\cite{Pearl2018}]
 	\label{SCM-def}
-	A \emph{structural causal model (SCM \cite{Pearl2009, Pearl2018})} by definition consists of: 
+	An \SCM\,by definition consists of: 
 	\begin{enumerate}
 		\setlength\itemsep{0em}
-		\item A set of nodes $V^+=U \dot \cup V$ as the disjoint union of sets $U$ and $V$.), where elements of $V$ correspond to endogenous variables and elements of $U$ to exogenous(or Latent) variables,
-		\item An endogenous/exogenous space $\Xcal_v$ for every $v \in V^+$, $\Xcal:=\prod_{v \in V^+}\Xcal_v$,
+		\item A set of nodes $V^+=U \dot \cup V$, where elements of $V$ correspond to endogenous variables, elements of $U$ to exogenous (or Latent) variables, and 
+		$U \dot \cup V$ is the disjoint union of sets $U$ and $V$.
+		
+		\item An endogenous/exogenous space $\Xcal_v$ for every $v \in V^+$, $\Xcal:=\prod_{v \in V^+}\Xcal_v$.
+		
 		\item A product probability measure $\Pr:=\Pr_U=\otimes_{u \in U} \Pr_u$ on the latent space $\prod_{u \in U} \Xcal_u$. 
 		
 		\item A directed graph structure $G^+=(V^+, E^+)$, with a system of structural equations  $f_V = (f_v)_{v \in V}$:
-		\[f_v: \; \prod_{s \in  \Pa^{G^+}(v)}\Xcal_s \to \Xcal_v,\]
-		where $\Ch^{G^+}(U) \subseteq V$ and all functions $f_V$ are measurable，$Ch(\cdot ), Pa()$. 
+		\[f_v: \; \prod_{s \in  Pa^{G^+}(v)}\Xcal_s \to \Xcal_v,\]
+		where $Ch^{G^+}(U) \subseteq V$, all functions $f_V$ are measurable, and $Ch(\cdot )$ and $Pa(\cdot)$ are graphical terminology of Children and Parents variables, respectively. 
 	\end{enumerate}
-	The SCM can be summarized by the tuple $M=(G^+,\Xcal,\Pr, f)$. $G^+$ is referred as the \emph{augmented functional graph} while the \emph{functional graph} which includes only endogenous variables, denoted as $G$ . 
+	Conventionally, an \SCM\,can be summarized by the tuple $M=(G^+,\Xcal,\Pr, f)$. Note that $G^+$ is referred as the augmented functional graph, while the functional graph which includes only endogenous variables, is denoted as $G$. 
 \end{Def}
 
-
-To model an action $do(X=x)$ one performs a mininal change necessary for establishiing the antecedent $X=x$, while leaving the rest of the model intact. This calls for removing the mechanism equation that nominally assigns values to variable $X$, and replacing it with a new equation, $X=x$, that enforces the intent of the specified action.  Formally, the $do$ intervention is defined by:
+Based on an \SCM\,, the key implementation of Pearl's causal diagrams is to capture interventions and counterfactuals by using an operator called  $do(X=x)$, which  
+simulates physical interventions by deleting certain functions from the model, replacing them with a constant $X=x$, while keeping the rest of the model unchanged.
+Formally, this $do$ intervention is defined as follows: 
 
 \begin{Def}[do intervention]
 	\label{def:p-intervention}
-	Given an \SCM $M=(G^+,\Xcal,\Pr, f)$, $I \subseteq V$, the \emph{do intervention} $do(X_I=x_I)$ maps $M$ to the intervened model $M_{do(X_I = x_I)} = (G^+,\Xcal,\Pr, \tilde{f})$ where
+	Given an \SCM\,$M=(G^+,\Xcal,\Pr, f)$ and any $I \subseteq V$, the \emph{do intervention} $do(X_I=x_I)$ maps $M$ to the intervened model $M_{do(X_I = x_I)} = (G^+,\Xcal,\Pr, \tilde{f})$, where
 	$$
 	\begin{aligned}
 	\tilde f_i(X_U,X_V) := \begin{cases}
-	x_i & i \in I \\
+	x_i & i \in I, \\
 	f_i(X_U,X_V) & i \in V \setminus I \,.
 	\end{cases}
 	\end{aligned}
@@ -63,33 +69,42 @@ To model an action $do(X=x)$ one performs a mininal change necessary for establi
 \end{Def}
 
 
-% 有点唐突
-There are many theoretical and technical complications in the case of cyclic causal graphs \cite{Bongers2016}, but for the special case of directed acyclic graphs(DAGs), causal semantics could be well defined without any complications in the following way:
+Since Pearl's causal diagrams are theoretical and technical complications in the general \SCM\,(e.g., 
+the cyclic causal graph \cite{Bongers2016}), most of efforts are made to study a special \SCM\,called directed acyclic graph (DAG), under which causal semantics could be well defined without any complications.
+
+
 % \cite{Marloes2018} 
 
 \begin{Def}[Causal DAG]
-	Consider a DAG $G=(V, E)$ and a random vector $X = (X_1, ..., X_K)$ with distribution $p$. Then $G$ is called a causal DAG for $X$ if $p$ satisfies the following:
+	Consider a DAG $G=(V, E)$ and a random vector $X = (X_1, ..., X_K)$ with distribution $p$. Then, $G$ is called a causal DAG for $X$ if $p$ satisfies the following conditions:
 	\begin{enumerate}[(i)]
 		\setlength\itemsep{0em}
 		\item $p$ factorizes, and thus is Markov, according to $G$, and
-		\item for any $A \subset V$ and any $\tilde{x}_A, x_B$ in the domains of $X_A, X_B$, where $B = V/A$, 
+		\item for any $A \subset V$, $B = V/A$,  and any $\tilde{x}_A, x_B$ in the domains of $X_A, X_B$,
 		$$
-p(x	| do(\tilde{x}_A)) = \prod_{k \in B} p(x_k|x_{pa(k)})  \prod_{i \in A} \mathbb{I}(x_j = \tilde{x}_j)
+p(x	| do(\tilde{x}_A)) = \prod_{k \in B} p(x_k|x_{Pa(k)})  \prod_{i \in A} \mathbb{I}(x_j = \tilde{x}_j).
 		$$
 	\end{enumerate}
 \end{Def}
 
- 
+Under the causal DAG,  
+the major obstacle to draw causal inference from data known as ``deconfounded'' is demystified through a "backdoor" graphical criterion; if 
+this backdoor criterion does not hold, a symbolic engine called ``do-calculus'' (i.e., Pearl's 3-rules of causal calculus)  is also handily available.
 
-The major obstacle to draw causal inference from data known as "deconfounded" is demystified through a graphical criterion called "backdoor" for causal DAGs. And for models where the backdoor criterion does not hold, a symbolic engine called "do-calculus"(Pearl's 3-rules of causal calculus)  is available. 
+
+
 
 % Regime indicator 为什么提出来。
 % There are other two notations for causal modeling. The key idea of \emph{regime indicator} is to consider 'seeing' and 'doing' as two types of regimes, a natural one and a set of interventional ones. $p(x; \sigma = s) = p(x; s)$. Here, regimes refer to external circumstances under which we expect some aspects of the joint distribution of X to differ.
 
-The other notation in the context of causal inference uses \emph{potential(counterfactual) outcomes}. We consider some causal effect of action $A$ on an outcome $Y$, we define the potential outcome $Y(\tilde{a})$(or $Y^{\tilde{a}}$) to be the value of $Y$ that we would observe if $A$ were set (forced) to $\tilde{a}$.  This approach is essentially based on perfect(atomatic) interventions. The condition for cause-effect estimation from observational data(counterpart of backdoor criteria)  for potential outcome is \emph{exchangeability}. 
+Besides Pearl's causal diagrams, the causal diagrams based on potential (or counterfactual) outcomes also provide useful tools to do causal inference for 
+observational data.
+In this framework, the causal effect of action $A$ on an outcome $Y$ is captured by 
+the potential outcome $Y^{\tilde{a}}$, which is the value of $Y$ that we would observe if $A$ is set (or forced) to $\tilde{a}$.  Essentially, the potential outcomes framework 
+is based on perfect (or atomatic) interventions, and its practical implementation relies on the following exchangeability condition.
 
-\begin{Def}[Exchangeability or Ignorability]
-	Exchangeability means that the counterfactual outcome and the actual treatment(action) are independent, or $Y^a \indep A$, for all values $a$. 
+\begin{Def}[Exchangeability]
+	Exchangeability means that the counterfactual outcome and the actual treatment (or action) are independent, or $Y^a \indep A$, for all $a$.
 \end{Def}
 
 
@@ -99,6 +114,6 @@ The other notation in the context of causal inference uses \emph{potential(count
 % 	If all dependencies among variables are captured by the causal model, then we call it causally sufficient.
 % \end{Def}
 
-We have reviewed the main causal notations currently used by researchers. Now it's time for us to present our new notations for causal models.
+%We have reviewed the main causal notations currently used by researchers. Now it's time for us to present our new notations for causal models.
 
 % Pros and cons are among the above causal notations, we now present our semantic of intervention under the information view of causal models.

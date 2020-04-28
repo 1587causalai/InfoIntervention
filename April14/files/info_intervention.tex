@@ -260,7 +260,7 @@ First, we give the definition of info causal DAGs based on info intervention, co
 		\item $p$ factorizes, and thus is Markov, according to $G$,  
 		\item for any $A \subseteq V$ and any $\tilde{x}_A$ in the domains of $X_A$,
 		\begin{equation}\label{eq:sigma}
-			p(x| \sigma(X_A =\tilde{x}_A)) = \prod_{k \in V} p(x_k|x_{pa(k)}^*)
+			p(x| \sigma(\tilde{x}_A)) = \prod_{k \in V} p(x_k|x_{pa(k)}^*)
 		\end{equation}		
 		where $x^*_k = x_k$ if $k \notin A$ else $\tilde{x}_k$.
 	\end{enumerate}
@@ -271,34 +271,25 @@ First, we give the definition of info causal DAGs based on info intervention, co
 
 \begin{Lem}
 	\label{Lem:consistent}
-	For arbitrary disjoint sets  $S$ and $T$ of an info causal DAG $G = (V, E)$,  we have 
+	For arbitrary disjoint sets  $S$ and $T$ of an info causal DAG $G = (V, E)$,  
 	$$
-	P(X_S=x_s|X_T=x_T, \info(X_T=x_T)) = P(X_S=x_s|X_T=x_T)
+	P(X_S=x_S|X_T=x_T, \info(X_T=x_T)) = P(X_S=x_S|X_T=x_T).
 	$$
 \end{Lem}
 
 \begin{proof}
-	According to Equation \ref{eq:sigma}, 
+	Taking $\tilde{x}_{A}=x_{T}$ in (1), we have 
 	$$
-	P(X=x|\info(X_T=\tilde{x}_T)) = \prod_{i\in V} P(X_i = x_i|X_{pa(i)} = x^*_{pa(i)})
+	P(X=x|\info(X_T=x_T)) = \prod_{k\in V} P(X_k = x_k|X_{pa(k)} = x_{pa(k)})=P(X=x).
 	$$
-	where $x^*_k = x_k$ if $k \notin T$ else $\tilde{x}_k$.
-	
-	 Let $\tilde{x}_k = x_k$ for $k \in T$, then 
-	\begin{align*}
-		P(X=x|\info(X_T=\tilde{x}_T))  &= P(X_T = \tilde{x}_T, X_{V/T} = x_{V/T}| \info(X_T=\tilde{x}_T))  \\
-		&=  \prod_{i\in V} P(X_i = x_i|X_{pa(i)} = x^*_{pa(i)}) \\
-		&=  \prod_{i\in V} P(X_i = x_i|X_{pa(i)} = x_{pa(i)}) \\
-		&= P(X=x) 
-	\end{align*}
-	
-	Then with marginalization on $S \cup T$ and $S$ we have 
+	By the marginalization on $S \cup T$ and $S$, it follows that 
 	$$
-	P(X_S=x_S, X_T = {x}_T|\info(X_T={x}_T)) = P(X_S=x_S, X_T = {x}_T) \\
-	P( X_T = {x}_T|\info(X_T={x}_T)) = P(X_T = {x}_T)
+	P(X_S=x_S, X_T = {x}_T|\info(X_T={x}_T)) = P(X_S=x_S, X_T = {x}_T), 
+	$$
+	$$
+	P( X_T = {x}_T|\info(X_T={x}_T)) = P(X_T = {x}_T).
 	$$ 
-   With the above two equations lead to:
-    $$P(X_S=x_s|X_T=x_T, \info(X_T=x_T)) = P(X_S=x_s|X_T=x_T)$$
+   Then, the result holds by the above two equations.
 \end{proof}
 
 
@@ -315,31 +306,24 @@ Compared to intervened graph for intervention $do(X=x)$ which deletes all input 
 % 信息干预做的事情是 $do$ intervention, 我们的信息干预模型联合了两个框架
 
 
-
-
-
-
-
-
-
-\paragraph{The three-level causal hierarchy.}  We can not talk about causal-effect without specifying a particular sub population. In the above example, the causal graph serves as a graph of information transferring for a particular person. Causal questions can be classified into three-level hierarchy in the sense that questions at level $i(i=1, 2,3)$ can be answered only if information from level $j(j>i)$ is available. Here we have our into intervention version of causal questions with the above example.
+\paragraph{The three-level causal hierarchy.}  We can not talk about causal-effect without specifying a particular sub population. In the above example, the causal graph serves as a graph of information transferring for a particular person. Causal questions can be classified into three-level hierarchy\cite{Pearl2019seven} in the sense that questions at level $i(i=1, 2,3)$ can be answered only if information from level $j(j>i)$ is available. Here we have our into intervention version of causal questions with the above example.
 \begin{enumerate}[I)]
 	\setlength{\itemsep}{-1pt}
-	\item Association $P(y|x)$
+	\item Association $p(y|x)$
 	\begin{itemize}
 		\setlength{\itemsep}{0pt}		
 		\item Typical activity: Seeing
 		\item Typical questions: What is? How would seeing $X$ change my belief in $Y$?
 		\item Examples: What does the habit of exercise information tell me about cholesterol level? 
 	\end{itemize}
-	\item Intervention $P(y|\sigma(x), z)$
+	\item Intervention $p(y|\sigma(x), z)$
 	\begin{itemize}
 		\setlength{\itemsep}{0pt}		
 		\item Typical activity: Intervening
 		\item Typical questions: What if?  What if I manipulate the information sending out from $X$?
 		\item Examples: What will my income be if I the company accepts the information that my age is 28?
 	\end{itemize}
-	\item Counterfactuals $P(y^{\sigma(x)}|x', y')$
+	\item Counterfactuals $p(y^{\sigma(x)}|x', y')$
 	\begin{itemize}
 		\setlength{\itemsep}{0pt}		
 		\item Typical activity: Imagining, Retrospection
