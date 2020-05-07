@@ -1,0 +1,216 @@
+%-------Document class UAI------------------  
+\documentclass[letterpaper, onecolumn]{article}
+\usepackage{arxiv}
+% \usepackage[margin=1in]{geometry}
+% \usepackage{times}
+\usepackage{CJK}
+% \usepackage[utf8]{inputenc} 
+
+
+
+%---------Schrift & Sprache------------------------
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsopn}
+\usepackage{url}
+\usepackage{smallref}
+%\usepackage{hyperref}
+\usepackage{enumerate, amssymb, amsmath, bm}
+
+\newcommand{\changefont}[3]{\fontfamily{#1}\fontseries{#2}\fontshape{#3}\selectfont} 
+\newcommand{\Joris}[1]{{\color{magenta}Joris: #1}}
+\newcommand{\Patrick}[1]{{\color{orange}Patrick: #1}}
+\newcommand{\Sara}[1]{{\color{blue}Sara: #1}}
+\newcommand{\Ord}{\mathrm{Ord}}
+\newcommand{\Rt}{\mathrm{Root}}
+\newcommand{\info}{\mathrm{\sigma}}
+
+\newcommand\Prb{\mathbb{P}}
+\newcommand\SCM{\textbf{SCM}}
+\newcommand{\indep}{\perp\mkern-9.5mu\perp}
+\newcommand{\notindep}{\centernot{\independent}}
+
+
+%---------Referenzen----------------------------
+
+\usepackage{cite}		%nichtmit natmib zusammen
+
+%-----------Mathepakete--------------------------
+
+\usepackage{amsmath, amsfonts} 
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+\usepackage{cancel}
+\usepackage{dsfont}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta, calc}
+\usetikzlibrary{shapes,positioning,decorations.markings}
+\usetikzlibrary{arrows, automata, chains, positioning, shapes.geometric, shapes.symbols}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{tikz-qtree}
+\usepackage{tikz-qtree-compat}
+\usepackage{color}
+\usepackage{ upgreek }
+\usetikzlibrary{shapes,decorations,arrows,calc,arrows.meta,fit,positioning}
+\tikzset{
+	-Latex,auto,node distance =1 cm and 1 cm,semithick,
+	state/.style ={ellipse, draw, minimum width = 0.7 cm},
+	point/.style = {circle, draw, inner sep=0.04cm,fill,node contents={}},
+	bidirected/.style={Latex-Latex,dashed},
+	el/.style = {inner sep=2pt, align=left, sloped}
+}
+
+%-----------------
+
+\input{thm}
+\input{shorts}
+
+\usepackage{times}
+\usepackage{listings}
+
+
+\title{Info Causal Models with(or without) Cycles}
+
+
+
+\author{ {\bf Gong Heyang}\\
+	University of \\ Science and Technology of China\\
+	\url{gonghy@mail.ustc.edu.cn}\\
+	\And
+	{\bf Zhu Ke}\\
+	University of HongKong \\
+	\url{mazhuke@hku.hk}\\
+}
+
+%%%%%%%%%%%%ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{CJK*}{UTF8}{gbsn}
+\maketitle
+    \begin{abstract}
+        The presentence of feedback is one of the main obstacles while applying causal models in many areas of many application. We provide a general theory framework for causal models with（or without cycles based on understanding causality as information transfer, and models using in this framework are referring as info causal models(ICMs) which use gates for stopping the information transfer process and predictive coding for factorization.
+    \end{abstract}
+	
+    \tableofcontents
+    \newpage
+    
+    \section{Introduction}
+    
+    \textbf{Two main obstacles in casual inference.}As Harvard social scientist Gary King puts it, “More has been learned about causal inference in the last few decades than the sum total of everything that had been learned about it in all prior recorded history"\cite{brockman2020possible}. In recent years, Judea Pearl has developed a mathematical language for causation with the $do(\cdot)$-operator as the key arithmetic for representing causal queries. Bernhard Scholkopf and his coworkers have done a lot of work on causality for machine learning and initiated the field of causal representation learning. Yoshua Bengio proposes a framework of system two deep learning which addresses the question of what variables should be a causal one. However, there are two obstacles standing in our way, including 1) How to obtain the causal graph structure of a given problems? 2) Even if we know the causal graph, how to deal with cyclic causal models?
+    
+    % \begin{enumerate}[i)]
+    %     \setlength{\itemsep}{-2pt}		
+    %     \item How to obtain the causal graph structure of a given problems? 
+    %     \item Even if we know the causal graph, how to deal with cyclic causal models?
+    % \end{enumerate}
+    
+    \textbf{Understanding causality as information transfer.} Causality analysis has been a topic of research from the days of Aristotle. However, there has not been an universal definition of causality, with different researchers providing different definitions causality. The modern concept of causality has been deeply influenced by physics and psychology during the 20th century and has a deep impact on causality in neuroscience. "Law-like" causality and interventionalist(or manipulationist) causality are among the most popular interpretations\cite{BernardFeltz2019}.  What is causality as information transfer? Collier himself defines it as the transfer of a particular quantity of information from one state of a system to another\cite{collier1999causation}. Physical causation is a special case in which physical information instances are transferred from one state of physical system to another. (Collier, 1999, p. 215). The formal definition of info intervention based on understanding causality as information transfer is given by $\info(\cdot)$-operator \cite{Heyang2019}.
+    
+    In this paper, we aim to provide a proper framework for cyclic causal models based on understanding causality as information transfer.
+    
+\subsection{Related literatures}
+
+我收集一些相关资料：
+
+我们研究因果关系与信息理论之间的联系。We show that a simple reading of Information Theory makes that 量子纠缠可以实现超光速信息传递。我们表明，引入时空信息中继的概念部分地解决了非因果信息传递的悖论。令人惊讶的是信息因果关系s only dependent on the quantum unitarity 它是比物理因果关系弱的原理。
+
+Philippe Jacquet.  Space Time relaying versus Information Causality.  [Research Report] RR-6428,INRIA. 2008, pp.15. ￿inria-00216180v2 (h-index 44)
+
+===============
+
+h-index	65, Helmut Satz, Horizons are limits to information transfer.
+Information transfer ~ speed of light ~ causality constraints.
+
+====================
+
+information transfer as a measure of causality, information Transfer Captures the True Causal Structure. 
+
+Information transfer in dynamical systems by Subhrajit sinha, 2018
+
+在本文中，我们通过示例展示了信息传递的现有定义（即有向信息和传递熵）如何无法捕获控制动力学系统中状态之间的真正因果关系。此外，现有的定义显示过于薄弱，无法对系统理论中的两个最基本的概念即可控性和可观察性产生任何影响。我们基于动力学系统理论的思想提出了一种新的信息传递定义，并表明该新定义不仅可以捕捉状态之间的真正因果关系，而且对系统的可控性和可观察性具有重要意义。我们表明，反馈控制系统中工厂输出和输入之间的平均信息传递等于开环动力学的熵，从而使用提议的传递定义重新推导了Bode基本极限结果。
+
+Sinha S, Vaidya U. Causality preserving information transfer measure for control dynamical system[C]//2016 IEEE 55th Conference on Decision and Control (CDC). IEEE, 2016: 7329-7334. 
+
+====================
+
+零因果关系原则 The principle of nil causality that reads, an event is not causal to another if the evolution of the latter is independent of the former, which transfer entropy analysis and Granger causality test fail to verify in many situations, turns out to be a proven theorem here. 
+
+San Liang X. Information flow and causality as rigorous notions ab initio[J]. Physical Review E, 2016, 94(5): 052201.
+
+====================
+
+Predictive coding
+
+\section{Preliminaries}
+
+预测编码(predictive coding) is a theory of brain function in which the brain is constantly generating and updating a mental model of the environment. 该模型用于 generate predictions of sensory input that are compared to actual sensory input. This comparison results in prediction errors that are then used to update and revise the mental model. 以一段含有大量杂音的语音为例，来看看大脑是怎样处理信息的吧。当听到一些音节“语……助理……不可……识别……这……话”，大脑在收集到这些零星出现的音节——相当于基础信息——之后，会根据过去已有的语言知识和习惯，来做合理的预测，或者说是有根据的猜测，再将预测和接收到的真实信息做比较，看两者是否吻合，最后理解了这句话其实是“语音助理不可能识别出这句话”。这个理论叫做“层级式预测编码”，或“预测处理”。
+
+\textbf{Top-down 和 bottom-up 与之密切相关. }
+The understanding of perception as the interaction between sensory stimuli (bottom-up) and conceptual knowledge (top-down) continued to be established by Jerome Bruner who, starting in the 1940s, studied the ways in which needs, motivations and expectations influence perception, research that came to be known as 'New Look' psychology.  The brain encodes top-down generative models at various temporal and spatial scales in order to predict and effectively suppress sensory inputs rising up from lower levels. 就是预测编码的意义，也是我们设计 ICM 的灵感来源。
+
+\textbf{动作干预和信息干预}
+
+这里给出信息干预的定义。
+
+
+
+\section{Info Causal Models}
+
+We have reviewed the info intervention $\info(\cdot)$ and do intervention $do(\cdot)$, and now it's time to present the formal definition of info causal models(ICMs).
+
+
+
+ \begin{Def}[Info Causal Models]
+ 	An \emph{info causal model(ICM)} is an information processing diagram defined based on a directed graph $G=(V, E)$, satisfies that
+ 	for every node $i\in V$, 
+	\begin{enumerate}[(i)]
+		\setlength\itemsep{0em}
+		\item $x_{pa(i), i}^c$ represents the predictive coding as inputs of the causal mechanism $X_i \sim p_\theta(\cdot|x^c_{pa(i), i})$;
+		\item rules $q_\gamma(\cdot)$ for updating predictive coding $x^c_{pa(i), i}$;
+		\item two gate Bernoulli variable $B_\phi$ and $B_\psi$ to control sending and accepting information.
+	\end{enumerate}
+	Here $pa(i)$ represents parents of $i$, and $\theta, \gamma, \phi, \psi$ are parameters. We use $G$ to denote the ICM for simplicity.
+\end{Def}
+
+Now we place causal semantics on ICMs.
+
+\begin{Def}[Interventions on ICMs]
+	For an ICM $G=(V, E)$ with $(\{x^c_{pa(i), i}\}_{i \in V}, p_\theta, q_\gamma, B_\phi, B_\psi)$, we can place both $do$-intervention and info intervention for it. For every node $i \in V$, we can place $do$ intervention semantics,
+	
+	\begin{enumerate}[(i)]
+	\setlength\itemsep{0em}
+	\item $do(X_i=x_i)$(or $do(x_i)$) represents removing the causal mechanisms on $i$, then force $X_i \sim \delta_{x_i}(\cdot)$. .
+	\item $do(X_i=x_i, B_{i;\phi} = 1)$ represents removing the causal mechanisms on $i$ and the gate $B_{i;\phi}$
+	\end{enumerate}
+
+	We can also place info intervention semantics,
+	\begin{enumerate}[(i)]
+	\setlength\itemsep{0em}
+	\item $\info(X_i)$ represents a measurement $x_i \sim X_i$(or just sampling $X_i$) on $i$, and $B_{i; \phi}$ will decide whether to send the information $x_i$.
+	\item $\info(X_i = x_i)$ means sending the information $x_i$ of $i$, and $B_{i, j; \phi}$ will decide whether it will be accepted by $j\in ch(i)$ . 
+	\item $\info(x_{i,k})$ means edge $(i, k)$ sending a information of $x_{i, k}$ to $k$, and $B_\psi$ will decide whether $k$ accepts it, and then update $x^c_{i, k}$ if it is accepted. 
+	\end{enumerate}	
+\end{Def}
+
+\section{Discussion and Conclusion}
+
+		
+		
+\bibliographystyle{plain}
+\small
+\bibliography{reference_icm.bib}
+
+\newpage
+\appendix
+\normalsize
+\end{CJK*}
+\end{document}
+
+
+
+
+

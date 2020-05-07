@@ -7,21 +7,26 @@
 % 从从例子出发，给出定义，然后哲学讨论。
 
 
-
 % In general, we need to answer questions such as what if I make something happpen.
 
-\paragraph{Problems of $do$-intervention.} Causal questions, such as what if I make something happen, can be formalized by $do$ operator, but still, controversial on empirical understanding for $do$ intervention exist(Pearl wrote at least two papers to address the this problem \cite{Pearl2019do, pearl2018does}). In many settings, a $do$ intervention which forces some variable to a given value is somewhat idealized or hypothetical. How would one manipulate variables such as race, obesity, or cholesterol level and how would one, for instance, fix the dietary fat intake or BMI of a person exactly at a given value?
-
-\begin{Eg}[A real world example]
+Causal questions, such as what if we make something happen, can be formalized by $do$ intervention, which, however, is still controversial on empirical understanding as 
+mentioned by Pearl \cite{Pearl2019do, pearl2018does}.
+In many settings, a \emph{do} intervention which forces some variable to a given value is somewhat idealized or hypothetical. 
+For instance, it is controversial to manipulate variables such as age, race, obesity, or cholesterol level by setting their values to some hypothetical ones in \emph{do} intervention. To see this point more clearly, we consider the following real example. 
+\begin{Eg} %[A real example ``reference???'']
     \label{eg:real}
-	We consider domain variables \emph{Exercise, Cholesterol, Occupation, Income, Diet}, and assume a causal relationship among them in the following Figure 1.
+	Assume a causal relationship among 6 domain variables in Figure 1.
+	%from which we can study the causal effect of Exercise on Cholesterol level.  
+	Suppose that we aim to study the causal effect of Age on Income  by do intervention. 
+	However, the empirical interpretation of the intervention $do(Age = \tilde{a})$ 
+	is controversial for a hypothetical positive integer $\tilde{a}$,  though Pearl suggested that we should interpret it in other dimensions \cite{Pearl2019do}. In other words, it seems unreasonable to articulate a causal question that what if the \emph{Age} equals $\tilde{a}$ under do intervention framework, indicating that do intervention is not complete for formalizing real world causal queries. 
     \begin{figure}[ht]
         \label{fig:real}
     	\centering
-    	\begin{tikzpicture}
+   	\begin{tikzpicture}
     	\node[state] (O) at (0.0, 2.0) {$Occupation$};
     	\node[state] (d) at (0,0) {$Exercise$};
-    	\node[state] (I) at (2.9, 2.0) {$Income$};
+     	\node[state] (I) at (2.9, 2.0) {$Income$};
     	\node[state] (x) at (2.3,0.8) {$Age$};
     	\node[state] (D) at (4.5, 1.1) {$Diet$};
     	\node[state] (y) at (4.5,0) {$Cholesterol$};
@@ -34,87 +39,86 @@
     	\path (I) edge (D);
     	\path (D) edge (y);
     	\end{tikzpicture}
-    	\caption{Causal effect of exercise on cholesterol level.}
+    	\caption{A causal relationship}
     	\label{fig:exercise}
     \end{figure}
 \end{Eg}
 
-In this example, the empirical interpretation of the $do(x)$ operator when applied  to non-manipulable variables \emph{Age} and \emph{Cholesterol} can be of controversial. 
+Although we can not force \emph{Age} to $\tilde{a}$ in Example \ref{eg:real}, we can send out the information that \emph{Age} is $\tilde{a}$. This motivates us to consider a new causal semantic based on \emph{info} intervention operator, whose formal definition is given below. 
 
-Moreover, the notation suggests that the manner in which  a variable is manipulated is irrelevant to the intervened causal model. However, in practice it may matter whether a medical treatment is, for example, given orally or as an injection(Some researchers refer it as different version of treatment\cite{Hernan2019}.). For greater generality, we may therefore want to consider a possibly larger and more detailed set $S$ of different regimes describing different circumstances under which a system might be observed and manipulated. Each regime then induces a different probability measure for the joint distribution of $X$. In short, both how and what actions are taken have effect on the result\cite{Marloes2018}. 
-
-
-
-These problems are NOT sign of anything wrong with Pearl's $do$ intervention, but suggest that $do$ is not complete for formalizing real world causal queries. In order to achieve a better representation of reality, we introduce the causal semantics and notations based on understanding causality as information transfer. For causal model in view of causality as information transfer, we usually assume:	
-\begin{enumerate}[1)]
-	\item If the information of node $X$ has an effect on other node $Y$ while fix other nodes, then $X$ is a direct cause of $Y$. 
-	\item Directed edges are information channels which can accept information from its input node. 
-	\item Nodes are causal mechanisms to process the information accepting from its input edges. 
-\end{enumerate}	
-
-
-We first present the definition of \emph{info intervention} on a SCM. The formal definition is given below:
-
-\begin{Def}[Info intervention for \SCM]
+\begin{Def}[\emph{Info} intervention]
 	\label{def:i-intervention}
-	Given an \SCM $M=(G^+,\Xcal,\Pr, f)$, $I \subseteq V$, the \textbf{info intervention} $\info(X_I=x_I)$ (or in short $\info(x_I)$) maps $M$ to the intervened model $M_{\sigma(X_I = x_I)} = (G^+,\Xcal,\Pr, \tilde{f})$, $\tilde{f} := f(X_U, \tilde{X}_V)$ where
+	Given an \SCM\,$M=(G^+,\Xcal,\Pr, f)$ and any $I \subseteq V$, the info intervention $\info(X_I=x_I)$ (or, in short, $\info(x_I)$) maps $M$ to the intervened model $M_{\sigma(X_I = x_I)} = (G^+,\Xcal,\Pr, \tilde{f})$, 
+	where $\tilde{f}_i := f_i(X_U, \tilde{X}_V)$ with
 	$$
 	\begin{aligned}
-	\tilde{X}_i := \begin{cases}
-	x_i & i \in I \\
-	X_i & i \in V \setminus I \,.
+	\tilde{X}_j := \begin{cases}
+	x_j, & j \in I, \\
+	X_j, & j \in V \setminus I \,.
 	\end{cases}
 	\end{aligned}
 	$$
-	the causal graph of info intervened SCM $M_{\info(X_I=x_I)}$  is the graph that removes all output edges from $I$ in $G^+$.
 \end{Def}
 
+Based on the preceding definition, 	
+the \emph{info} intervened \SCM\,$M_{\info(X_I=x_I)}$ 
+does not delete any function from the model, but just sends out the information 
+$X_I = x_I$ to the model. Since the information $X_I=x_I$ is received by 
+the Children nodes of $X_I$, the links between $X_I$ and its Children nodes 
+are removed in $M_{\info(X_I=x_I)}$.
+
+Next, we highlight that the critical difference of 
+ \emph{info} intervened \SCM\,$M_{\info(X_I=x_I)}$ and 
+\emph{do} intervened \SCM\,$M_{do(X_I=x_I)}$ is that the former  
+keeps the causal mechanisms (or structural equations $f_{V}$ in other words) unchanged while the latter doesn't. 
+This difference makes 
+the \emph{info} intervention have no non-manipulable variables problem, which, however, exists 
+in \emph{do} intervention. For example, we now can articulate 
+the causal question that what if the \emph{Age} equals $\tilde{a}$ in Example \ref{eg:real} under \emph{info} intervention framework, since $M_{\info(X_I=x_I)}$ receives the hypothetical value of \emph{Age}, and at the same time, it does not change the value of this invented variable \emph{Age}. 
 
 
-In the Example \ref{eg:real}, $do(Age = 38)$ represents a causal question that what if make the the non-manipulable variable \emph{Age} equals 38, which can be of controversial. Although we cannot force \emph{Age} to 38, we can set out the information that the age is 38. This is where info intervention applies. 
+To further illustrate how the \emph{info} intervention works and what is the difference between \emph{info} and \emph{do} interventions, we consider the following example: 
 
-
-For interventionism causality(or manipulability theories of causation), {{we perform perturbations to determine the causal content\cite{zenil2019causal} of an evolving system}}. A  perturbation can be deleting a node or deleting a link. The $do(X=x)$ intervention, which removes the causal mechanism represented by the node  from the model, can be considered as deleting of a node but not a link. Our info intervention $\sigma(X=x)$, which force the output edges of node $X$ accept the fixed information $X=x$,  can be interpreted as cutting off information transfer(deleting a link) form node $X$ to its children but keeping the mechanisms represented by $X$.
-
-So the critical difference between definitions of $do$ intervention and info intervention is that the causal mechanisms do not change. Instead, the hypothesis minimal change by info intervention is the information accepted by the output edges of a node. In other words, structural equations $f_V$ changed for $do$ intervention, in contrast, it keeps the same for info intervention. Let's see an example.
 
 
 % 箭头代表有方向，等于符号代表没有方向。
 
 \begin{Eg}
 	\label{eg1}
-	For a SCM with treatment $T$, confounders $X$ and outcome $Y$, see Figure \ref{fig:info-VS-$do$}.  The structural equations are:
+	An \SCM\,with  
+	a treatment $T$, a confounder $X$, an outcome $Y$, 
+	and two latent variables $\epsilon_X, \epsilon_T$ is given in Figure \ref{fig:info-VS-$do$}(a), and its structural equations are:
 	$$
 	\begin{aligned}
 	\begin{cases}
-	X \leftarrow f_X(\epsilon_X)  \\
-	T \leftarrow f_T(\epsilon_T, X) \\
-	Y \leftarrow f_Y(X, T)
+	X \leftarrow f_X(\epsilon_X),  \\
+	T \leftarrow f_T(\epsilon_T, X), \\
+	Y \leftarrow f_Y(X, T).
 	\end{cases}
 	\end{aligned}
 	$$    
-	The $do$ intervened SCM is: 
+	Based on Definition \ref{def:p-intervention}, its 
+	do intervened \SCM\,given in Figure \ref{fig:info-VS-$do$}(b) has the following structural equations: 
 	$$
 	\begin{aligned}
 	\begin{cases}
-	X \leftarrow f_X(\epsilon_X)  \\
-	T \leftarrow t \\
-	Y \leftarrow f_Y(X, T)
+	X \leftarrow f_X(\epsilon_X),  \\
+	T \leftarrow t, \\
+	Y \leftarrow f_Y(X, T).
 	\end{cases}
 	\end{aligned}
 	$$    	
-	The info intervened SCM is: 
+	Based on Definition \ref{def:i-intervention}, its info intervened \SCM\,given in Figure \ref{fig:info-VS-$do$}(c) has the following structural equations:
 	$$
 	\begin{aligned}
 	\begin{cases}
-	X \leftarrow f_X(\epsilon_X)  \\
-	T \leftarrow f_T(\epsilon_T, X) \\
-	Y \leftarrow f_Y(X, t) 
+	X \leftarrow f_X(\epsilon_X),  \\
+	T \leftarrow f_T(\epsilon_T, X), \\
+	Y \leftarrow f_Y(X, t). 
 	\end{cases}
 	\end{aligned}
 	$$ 
-	 The causal model is show in Figure \ref{fig:SCM1}, and the $do$ intervened SCM with Figure  \ref{fig:SCM2}, adn the info intervened SCM with Figure \ref{fig:SCM3}. 
-	
+As expected, the causal mechanisms are unchanged only in the info intervened \SCM\,.
 \end{Eg}
 
 \begin{figure}[ht]
@@ -123,10 +127,10 @@ So the critical difference between definitions of $do$ intervention and info int
 		\begin{tikzpicture}
 		
 		\node[state] (d) at (0,0) {$T$};
-		\node[state] (ed) at (0, 1) {$\epsilon_T$};
-		\node[state] (x) at (1.0,1.5) {$X$};
+		\node[state] (ed) at (-0.5, 1) {$\epsilon_T$};
+		\node[state] (x) at (0.5, 1.5) {$X$};
 		\node[state] (ex) at (2.2,1.5) {$\epsilon_X$};
-		\node[state] (y) at (2.5,0) {$Y$};
+		\node[state] (y) at (2,0) {$Y$};
 		\path (ex) edge (x);
 		\path (x) edge (d);
 		\path (ex) edge (x);
@@ -134,7 +138,7 @@ So the critical difference between definitions of $do$ intervention and info int
 		\path (d) edge (y);
 		\path (x) edge (y);
 		\end{tikzpicture}
-		\caption{A SCM without intervention.}
+		\caption{An \SCM\,without intervention.}
 		\label{fig:SCM1}
 	\end{subfigure}
 	\vfill
@@ -150,7 +154,7 @@ So the critical difference between definitions of $do$ intervention and info int
 		\path (x) edge (y);
 		\path (d) edge (y);
 		\end{tikzpicture}
-		\caption{do intervention $do(T=t)$.}
+		\caption{Its \emph{do} intervened \SCM.}
 		\label{fig:SCM2}
 	\end{subfigure}
 	\begin{subfigure}[tb]{0.5\textwidth}
@@ -168,17 +172,33 @@ So the critical difference between definitions of $do$ intervention and info int
 		\path (x) edge (y);
 		\path (x) edge (d);
 		\end{tikzpicture}
-		\caption{Info intervention $\info(T=t)$.}
+		\caption{Its \emph{info} intervened \SCM.}
 		\label{fig:SCM3}
 	\end{subfigure}
-	\caption{A simple SCM with treatment $T$, confounders $X$, outcome $Y$ and two latent variables $\epsilon_X, \epsilon_T$. }
+	\caption{An \SCM\,and its two intervened \SCM$\text{s}$.}
 	\label{fig:info-VS-$do$}
 \end{figure}
 
-It is clear that those two intervened SCM are different from the intervened causal mechanisms $f_T, f_X, f_Y$. Particularly, info intervention keeps the causal mechanisms unchanged while $do$ intervention doesn't. Moreover, for empirical interpretation of info intervention, we don't have problem of non-manipulable variables such as race, obesity or cholesterol level. For example, if $T$ represents race and $Y$ represent whether hired or not, then an $do$ intervention questions would be what if I manipulate my race to black. This causes an issue of non-manipulate variables problem. But for info intervention view, the question becomes "what if other nodes receive an information that the race is black?".  In our example, the intervened variable $T$ becomes a constant $t$ for $do(T=t)$ intervention while it remains the same for info intervention $\info(T=t)$. 
+Based on our \emph{info} intervention, 
+a new way to study causality can be 
+implemented. In this \emph{info} intervention framework, we essentially treat the causality as the \emph{information transfer}. That is, we say a node $T$ causes another node $Y$, 
+if the information of $T$ transferred by its output edges has an effect on $Y$. 
+Our new viewpoint of causality is different from that of 
+``Law-like'' causality in  physics or 
+interventionist causality in statistics, economics and social sciences. 
+To some extents, our information transfer causality seems to be the combination of these two, since the causal mechanisms are unchanged as in 
+``Law-like'' causality, while the intervention operations are allowed as in 
+interventionist causality. Particularly, in our information transfer causality framework, we say that $T$ causes $Y$ iff 
+``\emph{changing information on $T$ leads to a change in $Y$, while keeping everything else constant}''. This viewpoint is different from that in the interventionist causality framework, under which one says that $T$ causes $Y$ iff 
+``changing $T$ leads to a change in $Y$, while keeping everything else constant''.
+We think our new viewpoint of causality based on information transfer could be beneficial for many applications, since 
+as demonstrated before, it allows us to 
+formalize, process and understand more causal relationships in the real world.  
 
 
-\paragraph{Causality as Information Transfer.}  From the philosophical point of view, the study of the concept of causality started with Aristotle (384 bc–322 bc) who proposed four different types of causes. David Hume initiated the modern approach of causality. He recognized the importance of causal beliefs for human understanding. The modern concept of causality has been deeply influenced by physics and psychology during the 20th century and has a deep impact on causality in neuroscience. "Law-like" causality and interventionalist(or manipulationist) causality are among the most popular interpretations.  What is causality as information transfer? Collier himself defines it as the transfer of a particular quantity of information from one state of a system to another\cite{collier1999causation}. Physical causation is a special case in which physical information instances are transferred from one state of physical system to another. (Collier, 1999, p. 215).There are two main reasons to think that understanding causality as information transfer could be beneficial and applicable to the mind-brain debate: (1) the brain is an information processing machine, and (2) the way we talk about the mental to physical relationship seems similar to the relationship between the abstract content of information and its physical realization \cite{feltz2019free}. For the Causal Exclusion question: was it the flashing light or the belief that it signifies the low salt level that made us go and add the salt to our dishwasher? {{The latter is thought to be the cause of our action in this article}}.
+
+
+
 
 
 % 需要说清楚，我们关注的点是干预后的分布，而不仅仅是 $Y$ 的分布。
@@ -247,328 +267,163 @@ It is clear that those two intervened SCM are different from the intervened caus
 % For the simplest case that no causal relathionship among visible variable, see Remark \ref{rem1}.  An $do$ intervened SCM would be the same as the original SCM except for those intervened variables. For info intervention, the intervened SCM would exactly the same as the original SCM but the informations sending out from intervened variables change to the intervened values. 
 
 
-\section{Info Causal DAGs}
+\section{\emph{Info}-causal DAGs}
 
-In the previous section, we have illustrated the idea of understanding causality as information transfer, and given the definition of information intervention $\info(X =x)$ for SCMs. Now we are going to focus on the directed acyclic graphs(DAGs) for illustration of causal semantics and notations based on $\sigma(\cdot)$-operator.
+Analogous to the causal DAGs in the framework of 
+\emph{do} intervention, it is natural to introduce our \emph{info}-causal DAGs below, under which the causal semantics  could be well defined without any complications in the framework of \emph{info} intervention. 
 
-First, we give the definition of info causal DAGs based on info intervention, corresponding to causal DAGs based on $do$ intervention.
 
-\begin{Def}[Info causal DAG]
-	Consider a DAG $G = (V, E)$ and a random vector $X = (X_1, ..., X_K)$ with distribution $p$. Then $G$ is called a \emph{info causal DAG} for $X$ if $p$ satisfies the following:
+
+\begin{Def}[\emph{Info}-causal DAG]
+	Consider a DAG $G = (V, E)$ and a random vector $X = (X_1, ..., X_K)$ with distribution $p$. Then, $G$ is called an info-causal DAG for $X$ if $p$ satisfies the following:
 	\begin{enumerate}[(i)]
 		\setlength{\itemsep}{0pt}
 		\item $p$ factorizes, and thus is Markov, according to $G$,  
 		\item for any $A \subseteq V$ and any $\tilde{x}_A$ in the domains of $X_A$,
 		\begin{equation}\label{eq:sigma}
-			p(x| \sigma(\tilde{x}_A)) = \prod_{k \in V} p(x_k|x_{pa(k)}^*)
+			p(x| \sigma(\tilde{x}_A)) = \prod_{k \in V} p(x_k|x_{pa(k)}^*),
 		\end{equation}		
 		where $x^*_k = x_k$ if $k \notin A$ else $\tilde{x}_k$.
 	\end{enumerate}
 \end{Def}
+
+If $G$ is an \emph{info}-causal DAG, we can define its \emph{info}-intervened DAG.
+
+
+\begin{Def}[\emph{Info}-intervened DAG]
+	Consider an info-causal DAG $G = (V, E)$ and an info intervention $\sigma(\tilde{x}_A)$. The info-intervened DAG, denoted by $G^{\sigma(\tilde{x}_A)}$, has the joint distribution $p(x| \sigma(\tilde{x}_A))$ in (\ref{eq:sigma}) for the 
+	counterfactual random vector $X^{\sigma(\tilde{x}_A)}$. 
+\end{Def}
+
+Due to the distinct way of intervention,  
+the \emph{info}-intervened DAG removes all output edges of intervened nodes, while the \emph{do}-intervened DAG removes all input edges of intervened nodes; consequently, 
+the distribution of $X^{\sigma(\tilde{x}_A)}$ in \emph{info}-causal DAG is different that of 
+$X^{do(\tilde{x}_A)}$ in causal DAG. Although our 
+\emph{info}-causal (or \emph{info}-intervened) DAG is different from the causal (or \emph{do}-intervened) DAG, 
+they share many similar properties as demonstrated in the sequel. Below, we first introduce one of them.
+
+
 
 % The causal graph of intervened SCM is defined as removing all input edges of those corresponding intervened variables. In contrast, intervened causal graph can be induced by removing all output edges for info intervention.
 
 
 \begin{Lem}
 	\label{Lem:consistent}
-	For arbitrary disjoint sets  $S$ and $T$ of an info causal DAG $G = (V, E)$,  
+	For arbitrary disjoint sets  $S$ and $T$ of an info-causal DAG $G=(V,E)$,  
 	$$
-	P(X_S=x_S|X_T=x_T, \info(X_T=x_T)) = P(X_S=x_S|X_T=x_T).
+	p(x_S|x_T, \info(x_T)) = p(x_S|x_T).
 	$$
 \end{Lem}
 
 \begin{proof}
-	Taking $\tilde{x}_{A}=x_{T}$ in (1), we have 
-	$$
-	P(X=x|\info(X_T=x_T)) = \prod_{k\in V} P(X_k = x_k|X_{pa(k)} = x_{pa(k)})=P(X=x).
-	$$
+	Taking $\tilde{x}_{A}=x_{T}$ in (\ref{eq:sigma}) , we have $
+	p(x|\info(x_T)) = \prod_{k\in V} p(x_k|x_{pa(k)})=p(x).
+	$
 	By the marginalization on $S \cup T$ and $S$, it follows that 
-	$$
-	P(X_S=x_S, X_T = {x}_T|\info(X_T={x}_T)) = P(X_S=x_S, X_T = {x}_T), 
-	$$
-	$$
-	P( X_T = {x}_T|\info(X_T={x}_T)) = P(X_T = {x}_T).
-	$$ 
+	\begin{align}
+	p(x_S, {x}_T|\info({x}_T)) &= p(x_S, {x}_T),\label{a1} \\
+	p({x}_T|\info({x}_T)) &= p({x}_T).\label{a2}
+	\end{align}
    Then, the result holds by the above two equations.
 \end{proof}
 
+The preceding lemma is analogous to the widely used consistency assumption\cite{VanderWeele2009} in the potential outcome framework, which states
+$P(Y^{\tilde{a}} = y | A=\tilde{a}) = P(Y=y|A=\tilde{a})$.
 
-It have been proved that causal DAGs are a special case of SCMs, then we can consider the \emph{info causal DAG} as an info intervened SCM {{by analogy}}. The intervened causal graph of $do$ intervention $G^{do(x)}$ is given by the intervened joint probability distribution, similarly, we can define the intervened causal graph of info intervention. 
 
-\begin{Def}[Intervened causal graph of info intervention]
-	Considering an info causal DAG $G = (V, E)$ and the info intervention $\sigma(X_A = \tilde{x}_A)$, the \emph{info intervened causal graph} is defined as the graph of $X$ with respect to the joint distribution $p(x; \sigma(X_A=\tilde{x}_A))$.
-\end{Def}
-
-Compared to intervened graph for intervention $do(X=x)$ which deletes all input edges, the intervened graph for intervention $\info(X=x)$ is obtained by removing all output edges of $X$.
 
 % SWIGs\cite{richardson2013single} removing constant splited nodes. .
 
 % 信息干预做的事情是 $do$ intervention, 我们的信息干预模型联合了两个框架
 
-
-\paragraph{The three-level causal hierarchy.}  We can not talk about causal-effect without specifying a particular sub population. In the above example, the causal graph serves as a graph of information transferring for a particular person. Causal questions can be classified into three-level hierarchy\cite{Pearl2019seven} in the sense that questions at level $i(i=1, 2,3)$ can be answered only if information from level $j(j>i)$ is available. Here we have our into intervention version of causal questions with the above example.
-\begin{enumerate}[I)]
+In the causal DAG, Pearl raised the concept of \emph{three-level causal hierarchy} to articulate the causal questions into three levels: 1. Association; 2. Intervention; 3. Counterfactuals \cite{Pearl2019seven}. 
+This classification of causal questions gives us a useful insight on what kind of questions each class is capable of answering, and questions at level $i$ can be answered only if information from level $j$ $(>i)$ is available.
+Similar to Pearl's idea, we can give a  three-level causal hierarchy in the \emph{info}-causal DAG:
+\begin{enumerate}[1.]
 	\setlength{\itemsep}{-1pt}
 	\item Association $p(y|x)$
 	\begin{itemize}
 		\setlength{\itemsep}{0pt}		
 		\item Typical activity: Seeing
 		\item Typical questions: What is? How would seeing $X$ change my belief in $Y$?
-		\item Examples: What does the habit of exercise information tell me about cholesterol level? 
+		\item Examples: What does the habit of exercise information tell me about the cholesterol level? 
 	\end{itemize}
 	\item Intervention $p(y|\sigma(x), z)$
 	\begin{itemize}
 		\setlength{\itemsep}{0pt}		
 		\item Typical activity: Intervening
 		\item Typical questions: What if?  What if I manipulate the information sending out from $X$?
-		\item Examples: What will my income be if I the company accepts the information that my age is 28?
+		\item Examples: What will the income be if I told the company the information that my age is 32?
 	\end{itemize}
-	\item Counterfactuals $p(y^{\sigma(x)}|x', y')$
+	\item Counterfactuals $p(y^{\sigma(x) }|x', y')$
 	\begin{itemize}
 		\setlength{\itemsep}{0pt}		
 		\item Typical activity: Imagining, Retrospection
-		\item Typical questions: Why?  Was it $X$ that caused $Y$? 
-		\item Examples: Was it the age cause me low income?  what if the company accept the information that my age is 32? 
+		\item Typical questions: Why?  Was it the information of $X$ that caused $Y$? 
+		\item Examples: Was it the information of young age caused me to have low income?  What if I told the company the information that my age is 32? 
 	\end{itemize}
 \end{enumerate}
 
-Consider the Example \ref{eg:real},
+Both Pearl's and our 
+three-level causal hierarchies can formulate a large range of causal questions. An advantage of our three-level causal hierarchy is that the causal questions for non-manipulable variables are not controversial. 
+This is probably due to the fact that the \emph{info} intervention does not change the causal mechanisms of the DAG but just sends send out the intervention information to the DAG. 
+To make this point more clearly, we re-consider Example \ref{eg:real}. In this example, the intervening question that what if I force or manipulate my age to 32,  i.e., $P(\mathit{Income}|do(\mathit{Age}=32))$, is controversial. In contrast, the intervening question $P(\mathit{Income}| \sigma(\mathit{Age}=32))$ can be interpreted as what will happen to my income if the company received the message that my age is 32, and its further counterfactual or retrospective question $P(\mathit{Income} | {\sigma(\mathit{Age}=32)}, \mathit{Income}=low, \mathit{Age}=22))$  can be interpreted as what if the company accepted the information that may age is 32 given that my 
+true age is 22 and my true income is low.
 
-\begin{figure}[h]
-	\centering
-	\begin{tikzpicture}
-	\node[state] (O) at (0.0, 2.0) {$Occupation$};
-	\node[state] (d) at (0,0) {$Exercise$};
-	\node[state] (I) at (2.9, 2.0) {$Income$};
-	\node[state] (x) at (2.3,0.8) {$Age$};
-	\node[state] (D) at (4.5, 1.1) {$Diet$};
-	\node[state] (y) at (4.5,0) {$Cholesterol$};
-	\path (x) edge (d);
-	\path (x) edge (y);
-	\path (d) edge (y);
-	\path (O) edge (d);
-	\path (x) edge (I);
-	%	\path (O) edge (x);
-%	\path (I) edge (d);
-	\path (O) edge (I);
-	\path (I) edge (D);
-	\path (D) edge (y);
-	\end{tikzpicture}
-	\caption{Causal effect of exercise on cholesterol level.}
-	\label{fig:exercise}
-\end{figure}
 
-For $do$ intervention on non-manipulable variable \emph{Age}, the empirical understanding of intervening question that what if I force or manipulate my age to 18,  i.e. $P(\mathrm{Cholestoral}|do(\mathrm{Age}=32)$, will be of controversial, though Pearl suggests that we should interpret it in other dimensions \cite{Pearl2019do}. But, in our information transfer causality, every node receives information from its input edges and sends out information to its output edges, so the value of each variable is determined by information on its input edges. Interventional question $P(\mathrm{Income}| \sigma(\mathrm{Age}=32)$ can be interpreted as  what will happen to my income/salary if the company receives the message of my age is 32, counterfactual or retrospective question $P(\mathrm{Income}^{\sigma(\mathrm{Age}=32)} | \mathrm{Income}=low, \mathrm{Age}=22)$  can be interpreted as what if the company accept the information that I am 32 given that I am 22 and my income is low.
+
+
+ %a complementary to formalize causal questions. 
+
+
 
 
 
 % The information on a specific edge is usually as the state of its pointing node, but an info intervention on the causal model may change informations to some events.
 
-Science thrives on standards, because standards serve (at least) two purposes: communication and theoretical focus. We have already show that info intervention is a nice standard for communicating about causal questions, {{which is as convenient as $do$ intervention}}. The $do$ operator sets a theoretical focus on causal inference, many of the variants of causal queries can be reduced to expressions with $do$ operator, or to several applications of $do$ operator. Theoretical results established for “$do$” are then applicable to those variants. Then, what about info intervention?
+
 
 \section{Causal Calculus for Info Intervention}
 
-% For $\sigma(\cdot)$-operator, we also have adjustment formula for answer cause-effect(or interventional) questions. 
-Pearl created the $do$-operator for do intervention, and the operator becomes essentially important for formulating causal queries and theories. Likewisely, we have proposed $\sigma$-operator for info intervention, and now we are going to using it to formulate corresponding causal propositions.  First, an adjustment formula for info intervention is given for the most common treatment-outcome case. 
+
+The \emph{do} intervention is a standard for studying the causality, since it serves (at least) two purposes: communication and theoretical focus\cite{Pearl2009}. 
+In the previous sections, we have already shown that our \emph{info} intervention is also a nice standard for communicating about causal questions. 
+In this section, we will show our \emph{info} intervention can also 
+be a good standard for theoretically focusing on the causal inference. That is, 
+the theoretical results established for \emph{info} intervention are applicable to 
+many variants of causal queries.
+
+
+First, we give an adjustment formula for \emph{info} intervention, which is valid for the most common treatment-outcome case without confounding variables.
  
  \begin{Thm}[Adjustment formula]
- 	For an info causal DAG $G$, $T$ is the treatment, $X$ is the covariates and $Y$ is the outcome, then
+ 	For an info-causal DAG $G=(V,E)$, $T$ is the treatment, $X$ is the covariate, and $Y$ is the outcome. Then,
  	$$
- 	P(Y=y|\info(T=\tilde{t})) = \sum_x P(Y=y|T=\tilde{t}, X=x) P(X=x).
+ 	p(y|\info(\tilde{t})) = \sum_x p(y|\tilde{t}, x) p(x).
 	$$
  \end{Thm}
- 
-
 \begin{proof}
-	According to Equation \ref{eq:sigma},
- 	$$
- 	p(Y=y, T=t, X=x|\sigma(T=\tilde{t})) = p(Y=y|T=\tilde{t}, X=x) p(T=t|X=x) p(X=x) 
- 	$$
- 	Then we have
+	By (\ref{eq:sigma}), 
+ 	$p(y, t, x|\sigma(\tilde{t})) = p(y|\tilde{t}, x) p(t|x) p(x)$. 
+ 	Then, it follows that
  	\begin{align*}
- 		p(Y=y|\info(T=\tilde{t})) &= \sum_x \sum_t p(Y=y, T=t, X=x|\sigma(T=\tilde{t})) \\
- 											&= \sum_x \sum_t p(Y=y|T=\tilde{t}, X=x) p(T=t|X=x) p(X=x) \\
- 											&= \sum_x p(Y=y|T=\tilde{t}, X=x) p(X=x) \sum_t p(T=t|X=x) \\
- 											&= \sum_x P(Y=y|T=\tilde{t}, X=x) P(X=x) \\
+ 		p(y|\info(\tilde{t})) &= \sum_x \sum_t p(y, t, x|\sigma(\tilde{t})) \\
+ 		&= \sum_x \sum_t p(y|\tilde{t}, x) p(t|x) p(x) \\
+ 		&= \sum_x p(y|\tilde{t}, x) p(x) \sum_t p(t|x) \\
+ 		&= \sum_x p(y|\tilde{t}, x) p(x).
  	\end{align*}
+ 	This completes the proof. 
 \end{proof}
 
-The major obstacle "Confounding" to drawing causal inference from data has been demystified through a graphical criterion called "backdoor criteria". For a DAG with a joint distribution  $p$  factorizes according to the graph structure, $d$-seperation implies conditional independence.  Moreover, Pearl's 3 rules for $do$ intervention enables us to identify a causal query, turn a causal question into a statisitcal estimation problem. Pearl's 3 rules describe graphical rules for
-%讲清楚 causal calculus 扮演的决策
-\begin{enumerate}[1)]
-	\setlength{\itemsep}{0em}
-	\item delete a observation
-	\item delete a action 
-	\item observation/action exchange
-\end{enumerate}
 
-For the info intervention on info causal DAGs, we propose three rules for $\info(\cdot)$ operator, which reveal a more straightforward representation as follows: 
+Next, we show how to make causal inference in the \emph{info} intervention framework, based on 
+"front-door" criterion. In any graph, we say that $Z$ satisfies the front-door criterion when (i) $Z$ intercepts all directed paths from $X$ to $Y$; (ii) there are no unblocked back-door paths from $X$ to $Z$; (iii) $X$ blocks all back-door paths from $Z$ to $Y$. 
+As Pearl \cite{Pearl2009}, we consider an \emph{info}-causal DAG 
+with hidden variables $U$ of this front-door problem (see 
+Figure \ref{fig:front2}(a)).
+For this  \emph{info}-causal DAG, its 
+\emph{info}-intervened DAG $G^{\info(\tilde{x})}$ is plotted in Figure \ref{fig:front2}(b).
 
-\begin{Thm}[Three rules for $\info$ operator]
-	\label{thm:rules}
-	For an info causal DAG $G=(V, E)$, $X, Y, Z$ and $W$ are arbitratry disjoint sets of variables, then for info intervention $\info(X=x)$ (or just $\info(x), \info(X)$ when no ambiguity exist for simplicity.), 
-	
-	\textbf{Rule 1}(Insertion/deletion of observations) \\
-	$P(Y=y|\info(X=x), Z=z, W=w) = P(Y=y|\info(X=x), W=w)$ in the case that $Y \indep_d Z|W$ in $G^{\info(X=x)}$
-	
-	\textbf{Rule 2}(Action/observation exchange) \\
-	$P(Y=y|\info(Z=z), X=x) = P(Y=y|Z=z, X=x)$  in the case that $Y\indep_d Z|X$ in $G^{\info(Z=z)}$   
-	
-	\textbf{Rule 3}(Insertion/deletion of actions) \\
-	$P(Y=y|\info(Z=z)) = P(Y=y)$ in the case where no causal paths connect $Z$ and $Y$ in $G$.  
-\end{Thm}
-
-\begin{proof}
-	For Rule 1,  since $G^{\info(X=x)}$ is a DAG w.r.t. a factorization $P(X=x, Y=y, Z=x, W=w|\info(X=x))$, and $d$-separation implies conditional independence, then
-	$$
-	P(Y=y|\info(X=x), Z=z, W=w) = P(Y=y|\info(X=x), W=w)
-	$$
-	
-	For Rule 2, since $Y\indep_d Z|X$ in $G^{\info(Z=z)}$ , then we have the conditional independence:
-	\begin{align*}
-		P(Y=y|X=x, \info(Z=z)) &= P(Y=y|X=x, Z=z, \info(X=x)) \\
-		&= P(Y=y, Z=z|X=x, \info(X=x)) / P(Z=z|X=x, \info(X=x))
-	\end{align*}
-
-	and by Lemma \ref{Lem:consistent}, 
-	
-	\begin{align*}
-		P(Y=y, Z=z|X=x, \info(X=x)) &= P(Y=y, Z=z|X=x) 	\\
-		P(Z=z|X=x, \info(X=x))  &= P(Z=z|X=x)
-	\end{align*}
-		
-	Then we have 
-	$$
-	P(Y=y|X=x, \info(Z=z))  = P(Y=y, Z=z|X=x) /  P(Z=z|X=x)  = P(Y=y|X=x, Z=z)
-	$$
-	
-	For Rule 3, we rephrase the notations for simplicity and need to prove
-	$$
-	P(X_B=x_B|\info(X_A=\tilde{x}_A)) = P(X_B=x_B)
-	$$
-	where there is no causal paths form $A$ to $B$.
-	
-	Note that $A \notin Anc(B)$ ($Anc(B)$ represent the set of ancestors of $B$ and itself), and for any $j \in Anc(B)$, $pa(j) \subset Anc(B)$, then 
-	$x^*_{pa(j)} = x_{pa(j)}$ by definition, which leads to  
-	
-	$$
-	\prod_{j \in Anc(B)}P(X_j=x_j|X_{pa(j)} = x^*_{pa(j)}) = \prod_{j \in Anc(B)}P(X_j=x_j|X_{pa(j)} = x_{pa(j)})  = P(X_{Anc(B)} = x_{Anc(B)}) 
-	$$ 
-
-	 According to Equation \ref{eq:sigma}, 
-	 \begin{align*}
-	 	P(X=x| \sigma(X_A =\tilde{x}_A)) &= \prod_{k \in V} p(x_k|x_{pa(k)}^*) \\
-	 	&= \prod_{k \in Anc(B)} p(x_k|x_{pa(k)}^*) \cdot  \prod_{k \notin Anc(B)} p(x_k|x_{pa(k)}^*) \\
-	 	&= \prod_{k \in Anc(B)} p(x_k|x_{pa(k)}) \cdot  \prod_{k \notin Anc(B)} p(x_k|x_{pa(k)}^*)
-	  \end{align*}
-	  
-	 Marginlize on $Anc(B)$, we have:
-	\begin{align*}
-		P(X_{Anc(B)} = x_{Anc(B)}| \sigma(X_A =\tilde{x}_A)) &= \prod_{k \in Anc(B)} p(x_k|x_{pa(k)}) \\
-		&= P(X_{Anc(B)} = x_{Anc(B)})
-	\end{align*}	  
-	 
-	 Since $B \in Anc(B)$, then $P(X_B=x_B|\info(X_A=\tilde{x}_A)) = P(X_B=x_B)$ hold.
-	  
-	
-\end{proof}
-
-The above three rules for $\info(\cdot)$ operater have the following equivalent form, and in some case it brings some convenience for application.
-
-\begin{Thm}
-	\label{thm:rules}
-	For an info causal DAG $G=(V, E)$, $X, Y, Z$ and $W$ are arbitratry disjoint sets of visible variables, then for info intervention $\info(X=x)$ (or just $\info(x), \info(X)$ when no ambiguity exist for simplicity.), 
-	
-	\textbf{Rule 1}(Insertion/deletion of observations) \\
-	$P(y|\info(x), z, w) = P(y|\info(x), w)$ if $Y \indep_d Z|W$ in $G^{\info(x)}$
-	
-	\textbf{Rule 2}(Action/observation exchange) \\
-	$P(y|\info(x), \info(z), w) = P(y|\info(x), z, w)$ if $Y\indep_d Z|W$ in $G^{\info(x, z)}$   
-	
-	\textbf{Rule 3}(Insertion/deletion of actions) \\
-	$P(y|\info(x), \info(z), w) = P(y|\info(x), w)$ if there is no causal paths from $Z$ to $Y$ in $G^{\info(x)}$.  
-\end{Thm}
-
-The single-world intervention graph (SWIG) which is quite similar to info intervened graph with the only difference of additional splitted constant intervened nodes \cite{Richardson2011, richardson2013single}. It is a simple graphical theory unifying causal directed acyclic graphs (DAGs) and potential (aka counterfactual) outcomes via a node-splitting transformation, thus the three rules of causal calculus hold.
-
-
-% Similarly, we have the front-door criterion for causal inference as an application of three rules. 
-
-
-\begin{Eg}[Independence of counterfactuals]
-	\label{eg:info_causal_DAG}
-	If we have a causal DAG $G$, see Figure \ref{fig:indep1}, $H$ is a hidden variable and $Y(a, b), B(a), Z(a)$ are corresponding counterfactual variables. then does the conditional independent relation $Y(a, b) \indep B(a) | \{A, Z(a)\}$ hold?
-	
-	\begin{figure}[ht]
-		\begin{subfigure}[tb]{0.5\textwidth}
-			\centering
-			\begin{tikzpicture}
-			\node[state] (a) at (-0.5, 1) {$A$};
-			\node[state] (z) at (1, 1)  {$Z$};
-			\node[state](b) at (1, 2) 	{$B$};
-			\node[state, dashed] (h) at (-0.5, 2) {$H$};
-			\node[state] (y) at (2.2, 1.5) {$Y$};
-			\path (h) edge (z);
-			\path (h) edge (b);
-			\path (b) edge (y);
-			\path (a) edge (z);
-			\path (z) edge (b);
-			\path (z) edge (y);
-			\end{tikzpicture}
-			\caption{Causal graph.}
-			\label{fig:indep1}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[tb]{0.5\textwidth}
-			\centering
-			\begin{tikzpicture}
-			\node[state] (a) at (-0.5, 1) {$A$};
-			\node[state] (z) at (1, 1)  {$Z$};
-			\node[state](b) at (1, 2) 	{$B$};
-			\node[state, dashed] (h) at (-0.5, 2) {$H$};
-			\node[state] (y) at (2.2, 1.5) {$Y$};
-			\path (h) edge (z);
-			\path (h) edge (b);
-			\path (z) edge (b);
-			%			\path (b) edge (y);
-			%			\path (a) edge (z);
-			\path (z) edge (y);
-			\end{tikzpicture}
-			\caption{Info intervened graph.}
-			\label{fig:indep3}
-		\end{subfigure}
-		\caption{Independence of Counterfactuals.}
-		\label{fig:indep}
-	\end{figure}
-\end{Eg}
-
-The answer is yes. The single-world intervention graph (SWIG)  \cite{Richardson2011, richardson2013single}, which is a simple graphical theory unifying causal directed acyclic graphs (DAGs) and potential (aka counterfactual) outcomes via a node-splitting transformation, is proposed for answering such questions. Here we showwe are able to answer such question elegantly with info intervention and related tools.
-
-Since the info intervened causal graph $G^{\info(A=a, B=b)}$ factorizes, we can use $d$-separation to read conditional independence from the info intervened graph Figure \ref{fig:indep3}:
-
-$$
-Y \indep_d B | \{A, Z\} \, in \, G^{\info(A=a, B=b)}
-$$
-
-which means
-
-$$
-Y^{\info(a, b)} \indep B^{\info(a, b)} | \{A^{\info(a, b)}, Z^{\info(a, b)}\} 
-$$
-
-By the definition of info casual DAG, $A^{\info(a, b)}= A$ for that $A$ doesn't recieve any information on eges $A \rightarrow Z, B \rightarrow Y$, and similarly for $B^{\info(a, b)} = B^{\info(a)}, Z^{\info(a, b)} = Z^{\info(a)}$. Then we plug them into the above conditional relation we have $Y^{\info(a, b)} \indep B^{\info(a)} | \{A, Z^{\info(a)}\}$.
-
-
-Similarly, we have the front-door criterion for causal inference with an elegant proof.
-
-\begin{Thm}[Front-door Criteria]
-	$Z$ satisfies the front-door criterion when (i) $Z$ intercepts all directed paths from $X$ to $Y$ , (ii) there are no unblocked back-door paths from	$X$ to $Z$, and (iii) $X$ blocks all back-door paths from $Z$ to $Y$ . Then  $P(Y=y|\info(X=\tilde{x}))$ can be wrtten as sum-product of conditional probabilities, 
-	
-	\begin{equation}
-	P(y|\info(\tilde{x})) = \sum_z  P(z|\tilde{x}) \sum_x P(y|z, x) P(x)
-	\end{equation}
-	
-	
 	\begin{figure}[h]
 		\begin{subfigure}[tb]{0.5\textwidth}
 			\centering
@@ -582,7 +437,7 @@ Similarly, we have the front-door criterion for causal inference with an elegant
 			\path (x) edge (z);
 			\path (z) edge (y);
 			\end{tikzpicture}
-			\caption{ $G$.}
+			\caption{An \emph{info}-causal DAG satisfying "front-door" criterion.}
 			\label{fig:front1}
 		\end{subfigure}
 		\hfill
@@ -597,7 +452,7 @@ Similarly, we have the front-door criterion for causal inference with an elegant
 			\path[dashed] (u) edge (x);
 			\path (z) edge (y);
 			\end{tikzpicture}
-			\caption{ $G^{\info(X=\tilde{x})}$.}
+			\caption{Its \emph{info}-intervened DAG $G^{\info(\tilde{x})}$.}
 			\label{fig:indep2}
 		\end{subfigure}
 		%	\begin{subfigure}[tb]{0.155\textwidth}
@@ -614,30 +469,240 @@ Similarly, we have the front-door criterion for causal inference with an elegant
 		%		\caption{$G^{\info(Z={z})}$.}
 		%		\label{fig:front1}
 		%	\end{subfigure}
-		
-		\caption{Front-door Criteria.}
+		\caption{Two DAGs with ``front-door'' criterion.}
 		\label{fig:front2}
 	\end{figure}
-	
+
+ 
+
+
+\begin{Thm}[``Front-door'' criterion]
+For an info-causal DAG in Figure \ref{fig:front2}, 
+$p(y|\info(\tilde{x}))$ can be written as sum-product of conditional probabilities:
+	\begin{equation*}
+	P(y|\info(\tilde{x})) = \sum_z  P(z|\tilde{x}) \sum_x P(y|z, x) P(x).
+	\end{equation*}
 \end{Thm}
 
 \begin{proof}
-	The causal graph with hidden variables $U$ of this front-door problem is given by Pearl \cite{Pearl2009} shown in Fig. \ref{fig:front1}. By the factorization property of the info causal DAG in Fig. \ref{fig:front2}:
+By (\ref{eq:sigma}), we have
 	\begin{equation}
 	\label{eq:front}
-	P(y, z, x, u| \info(\tilde{x}) )= P(y|u,z) P(z|\tilde{x}) P(x|u) P(u)
+	P(y, z, x, u| \info(\tilde{x}) )= P(y|u,z) P(z|\tilde{x}) P(x|u) P(u).
 	\end{equation}
-	Then we have
+Moreover, by Markov property, 
+we can show 
+\begin{equation}
+	\label{eq:front:1}
+P(z|u,x)=P(z|x) \,\,\,\mbox{ and }\,\,\,P(y|u,z)=P(y|u,z,x),
+\end{equation}
+where the first equality further implies 
+\begin{equation}
+	\label{eq:front:2}
+P(u|z,x)=P(u|x).
+\end{equation}
+Hence, it follows that
 	\begin{align*}
-	P(y|\info(\tilde{x})) &= \sum_x \sum_u \sum_z P(y, z, u, x| \info(\tilde{x}) ) \\
-	&= \sum_x \sum_u \sum_z P(y|u,z) P(z|\tilde{x}) P(x|u) P(u)  \\
+	P(y|\info(\tilde{x})) &= \sum_z \sum_x \sum_u P(y, z, x, u| \info(\tilde{x}) ) \\
+	&= \sum_z \sum_x \sum_u P(y|u,z) P(z|\tilde{x}) P(x|u) P(u) \,\,\,\,\,(\mbox{by }(\ref{eq:front})) \\
 	&= \sum_{z} P(z|\tilde{x}) \sum_x \sum_u P(y|u,z)  P(x|u) P(u) \\
-	&= \sum_{z} P(z|\tilde{x}) \sum_x \sum_u P(y|u,z, x)  P(u|x) P(x) \\
+	&= \sum_{z} P(z|\tilde{x}) \sum_x \sum_u P(y|u,z, x)  P(u|x) P(x) \,\,\,\,\,(\mbox{by }(\ref{eq:front:1}))\\
 	&= \sum_{z} P(z|\tilde{x}) \sum_x P(x) \sum_u P(y|u,z, x)  P(u|x) \\
-	&= \sum_{z} P(z|\tilde{x}) \sum_x P(x)  P(y|z, x)  P(x) 
+	&= \sum_{z} P(z|\tilde{x}) \sum_x P(x) \sum_u P(y|u,z, x)  P(u|z, x) \,\,\,\,\,(\mbox{by }(\ref{eq:front:2}))\\
+	&= \sum_{z} P(z|\tilde{x}) \sum_x P(x)  P(y|z, x). 
 	\end{align*}
-	
+This completes the proof. 	
 \end{proof}
+
+
+For an \emph{info}-causal DAG with confounding variables, 
+one can use a  ``back-door'' criterion or more generally,  
+Pearl's 3 rules. Specifically, Pearl's 3 rules for \emph{do} intervention enable us to identify a causal query and turn a causal question into a statistical estimation problem, and they describe graphical criteria for
+\begin{enumerate}[1.]
+	\setlength{\itemsep}{0em}
+	\item insertion/deletion of observations,
+	\item action/observation exchange,
+	\item insertion/deletion of actions.
+\end{enumerate}
+Denote by $\indep_d$ the $d$-separation.
+Similar to Pearl's 3 rules for $do$ intervention, we can present our three rules for \emph{info} intervention.
+
+\begin{Thm}[Three rules for \emph{info} intervention]
+	\label{thm:rules}
+	For an info-causal DAG $G=(V,E)$, $X, Y, Z$ and $W$ are arbitrary disjoint sets of variables. Then, 
+	%for the info intervention $\info(x)$, we have
+	
+	\textbf{Rule 1} (Insertion/deletion of observations) \\
+	$p(y|\info(x), z, w) = p(y|\info(x), w)$ if $Y \indep_d Z|W$ in $G^{\info(x)}$;
+	
+	\textbf{Rule 2} (Action/observation exchange) \\
+	$p(y|\info(z), x) = p(y|z, x)$  if $Y\indep_d Z|X$ in $G^{\info(z)}$;   
+	
+	\textbf{Rule 3} (Insertion/deletion of actions) \\
+	$p(y|\info(z)) = p(y)$ if there are no causal paths from $Z$ to $Y$ in $G$.  
+\end{Thm}
+
+\begin{proof}
+	In $G^{\info(x)}$, since $p(x, y, x, w|\info(x))$ factorizes, the $d$-separation implies the conditional independence.
+	
+	For Rule 1, we know that $Y$ and $Z$ are independent conditionally on $W$, and hence the conclusions holds.
+	
+	For Rule 2, since $Y$ and $Z$ are independent conditionally on $X$, we can show
+	\begin{align*}
+		p(y|\info(z),x) = p(y|\info(z),z,x) 
+		%&= \frac{p(y, z| \info(z), x)}{p(z|\info(z), x)} \\
+		= \frac{p(y, z, x |\info(z))}{p(z, x |\info(z))} 
+		= \frac{p(y, z, x )}{p(z, x)},
+		%&= P(Y=y|Z=z, X=x)
+	\end{align*}
+where the last equality holds by (\ref{a1})-(\ref{a2}). Then, the conclusion follows directly. 
+
+	
+	For Rule 3, we rephrase $X$ to be the entire random vector in $G$ for ease of presentation. 
+	Let $Anc(Y)$ represent the set of ancestors of $Y$ and itself. 
+	Then, by (\ref{eq:sigma}), we have 
+	 \begin{align*}
+	 	p(x| \sigma(z)) &= \prod_{k \in V} p(x_k|x_{pa(k)}^*) \\
+	 	&= \prod_{k \in Anc(Y)} p(x_k|x_{pa(k)}^*) \cdot  \prod_{k \notin Anc(Y)} p(x_k|x_{pa(k)}^*) \\
+	 	&= \prod_{k \in Anc(Y)} p(x_k|x_{pa(k)}) \cdot  \prod_{k \notin Anc(Y)} p(x_k|x_{pa(k)}^*),
+	  \end{align*}
+	  where we have used the fact that 
+	$x^*_{pa(k)} = x_{pa(k)}$ for any $k \in Anc(Y)$, since $Z \notin Anc(Y)$.
+	 Marginalizing on $Anc(Y)$, we can obtain
+	\begin{align*}
+		p(x_{Anc(Y)}| \sigma(z)) = \prod_{k \in Anc(Y)} p(x_k|x_{pa(k)}) 
+		= p(x_{Anc(Y)}).
+	\end{align*}	 	
+Since $Y \in Anc(Y)$, the conclusion follows directly. This completes all of the proofs. 
+\end{proof}
+
+Similar to Theorem \ref{thm:rules}, we
+can get the following results to bring us certain convenience in some applications.
+
+%The above three rules for $\info(\cdot)$ operater have the following equivalent form, and in some case it brings some convenience for application.
+
+\begin{Lem}
+For disjoint $A, B, C, D \subset V$ in an info-causal DAG, we have
+
+\begin{enumerate}[i)]
+    \item $p(\tilde{x}|\info(\tilde{x}_A), \info(\tilde{x}_B)) = p(\tilde{x}|\info(\tilde{x}_{A\cup B})) = p(\tilde{x})$
+    \item $p(x_{A\cup B}|\info(x_A)) = p(x_{A\cup B})$
+    \item $p(x_A|x_B, \sigma(x_B)) = p(x_A|x_B)$
+    \item $p(x_A, x_B | \sigma(x_B), \sigma(x_C)) = p(x_A, x_B |\sigma(x_C))$
+    \item $p(x_A|x_B, \sigma(x_B), \sigma(x_C)) = p(x_A|x_B, \info(x_C))$
+\end{enumerate}
+\end{Lem}
+
+\begin{proof}
+只需要证明(iv), 它只需证明：
+$$p(x_A, x_B| \sigma(x_B), \sigma(x_C)) = p(x_A, x_B|\info(x_{B\cup C})) = p(x_A, x_B |\sigma(x_C))$$
+而后面的式子，我们直接用定义可以得到。
+\end{proof}
+
+
+\begin{Thm}
+	\label{thm:rules}
+	For an info-causal DAG $G=(V, E)$, $X, Y, Z$ and $W$ are arbitrary disjoint sets of variables. Then, 
+	
+	\textbf{Rule 1} (Insertion/deletion of observations) \\
+	$p(y|\info(x), z, w) = p(y|\info(x), w)$ if $Y \indep_d Z|W$ in $G^{\info(x)}$;
+	
+	\textbf{Rule 2} (Action/observation exchange) \\
+	$p(y|\info(x), \info(z), w) = p(y|\info(x), z, w)$ if $Y\indep_d Z|W$ in $G^{\info(x, z)}$;
+	
+	\textbf{Rule 3} (Insertion/deletion of actions) \\
+	$p(y|\info(x), \info(z), w) = p(y|\info(x), w)$ if there are no causal paths from $Z$ to $Y$ in $G^{\info(x)}$.  
+\end{Thm}
+
+\begin{proof}
+Rule 2 的证明， d-seperation 意味着独立性，所以
+
+$$p(y|\info(x, z), w) = p(y|z, w, \info(x, z))$$
+
+$$p(y|\info(x), \info(z), w) = p(y|z, w, \info(x), \info(z))$$
+
+利用上面的引理(v) 可以得到我们要证明的式子。
+
+Rule 3 的证明，类似于前面
+
+
+\end{proof}
+
+
+
+
+
+% The single-world intervention graph (SWIG) which is quite similar to info intervened graph with the only difference of additional splitted constant intervened nodes \cite{Richardson2011, richardson2013single}. It is a simple graphical theory unifying causal directed acyclic graphs (DAGs) and potential (aka counterfactual) outcomes via a node-splitting transformation, thus the three rules of causal calculus hold.
+
+
+
+
+
+% \begin{Eg}[Independence of counterfactuals]
+% 	\label{eg:info_causal_DAG}
+% 	If we have a causal DAG $G$ in Figure \ref{fig:indep1}, $H$ is a hidden variable and $Y(a, b), B(a), Z(a)$ are corresponding counterfactual variables. then does the conditional independent relation $Y(a, b) \indep B(a) | \{A, Z(a)\}$ hold?
+	
+% 	\begin{figure}[ht]
+% 		\begin{subfigure}[tb]{0.5\textwidth}
+% 			\centering
+% 			\begin{tikzpicture}
+% 			\node[state] (a) at (-0.5, 1) {$A$};
+% 			\node[state] (z) at (1, 1)  {$Z$};
+% 			\node[state](b) at (1, 2) 	{$B$};
+% 			\node[state, dashed] (h) at (-0.5, 2) {$H$};
+% 			\node[state] (y) at (2.2, 1.5) {$Y$};
+% 			\path (h) edge (z);
+% 			\path (h) edge (b);
+% 			\path (b) edge (y);
+% 			\path (a) edge (z);
+% 			\path (z) edge (b);
+% 			\path (z) edge (y);
+% 			\end{tikzpicture}
+% 			\caption{Causal graph.}
+% 			\label{fig:indep1}
+% 		\end{subfigure}
+% 		\hfill
+% 		\begin{subfigure}[tb]{0.5\textwidth}
+% 			\centering
+% 			\begin{tikzpicture}
+% 			\node[state] (a) at (-0.5, 1) {$A$};
+% 			\node[state] (z) at (1, 1)  {$Z$};
+% 			\node[state](b) at (1, 2) 	{$B$};
+% 			\node[state, dashed] (h) at (-0.5, 2) {$H$};
+% 			\node[state] (y) at (2.2, 1.5) {$Y$};
+% 			\path (h) edge (z);
+% 			\path (h) edge (b);
+% 			\path (z) edge (b);
+% 			%			\path (b) edge (y);
+% 			%			\path (a) edge (z);
+% 			\path (z) edge (y);
+% 			\end{tikzpicture}
+% 			\caption{Info intervened graph.}
+% 			\label{fig:indep3}
+% 		\end{subfigure}
+% 		\caption{Independence of Counterfactuals.}
+% 		\label{fig:indep}
+% 	\end{figure}
+% \end{Eg}
+
+The answer is yes. The single-world intervention graph (SWIG)  \cite{Richardson2011, richardson2013single}, which is a simple graphical theory unifying causal directed acyclic graphs (DAGs) and potential (aka counterfactual) outcomes via a node-splitting transformation, is proposed for answering such questions. Here we show we are able to answer such question elegantly with info intervention and related tools.
+
+Since the info intervened causal graph $G^{\info(A=a, B=b)}$ factorizes, we can use $d$-separation to read conditional independence from the info intervened graph Figure \ref{fig:indep3}:
+
+$$
+Y \indep_d B | \{A, Z\} \, in \, G^{\info(A=a, B=b)}
+$$
+
+which means
+
+$$
+Y^{\info(a, b)} \indep B^{\info(a, b)} | \{A^{\info(a, b)}, Z^{\info(a, b)}\} 
+$$
+
+By the definition of info casual DAG, $A^{\info(a, b)}= A$ for that $A$ doesn't recieve any information on eges $A \rightarrow Z, B \rightarrow Y$, and similarly for $B^{\info(a, b)} = B^{\info(a)}, Z^{\info(a, b)} = Z^{\info(a)}$. Then we plug them into the above conditional relation we have $Y^{\info(a, b)} \indep B^{\info(a)} | \{A, Z^{\info(a)}\}$.
+
+
+
 
 %\begin{Rem}
 %	Our proof method is better than Pearl's method using $do$-calculus in Eq. \ref{eq:front} for that $X$ with a non-trival distribution which faciltitates the following calculations.
@@ -653,6 +718,14 @@ Similarly, we have the front-door criterion for causal inference with an elegant
 %
 %\paragraph{Mediation analysis.} Info intervention can define s the mechanisms that transmit changes from a cause to its effects much easier. 
 
+第一段总结，做过什么工作？
+第二段展望未来。未来需要做的事情是，既然因果是信息传递，那么和信息论的更深一步结合不可避免，我们可以通过控制信息的门控来断开变量之间因果关系，这是一个解决有环因果模型的潜在途径。
+
+
+
 We interpret causality as information transfer and propose the info intervention to highlight the information view of causal modeling. We have not only addressed the logic behind this concept, but also invented the $\info(\cdot)$ operator to formulate causal queries and causal calculus. We think $\info(\cdot)$-operator is a necessary and useful tool for causal inference complementary current used causal notations.
+
+需要注意的事情是 input information + causal mechanism = output, $\info(\cdot)$ 干预输入信息，$do(\cdot)$ 干预的因果机制。另外后面我们可以做的事情是干预某条边上的信息。理解某个节点有5条输出边，我们只干预其中一条边上的信息。那么对应的因果图就相当于抹掉了一条边(而不是全部的输出边)，这是SWIG 的split node 做不到的事情。
+
 
 It could be beneficial and applicable to the mind-brain debate to understand causality as information transfer for two reasons:  (1) the brain is an information processing machine, and (2) the way we talk about the mental to physical relationship seems similar to the relationship between the abstract content of information and its physical realization. And two challenges are: (1) if the mental is similar to the meaning of a piece of information, how can that be shown, and (2) how would causation as information transfer be able to account for the causal efficacy of the meaning of said piece of information. Or, in other words, how we could develop an explanation that avoids the challenges of causal compatibilism and interventionism, while at the same time accounts for the causal efficacy of the mental \cite{feltz2019free}. We think both $do(\cdot)$ and $\info(\cdot)$ are valuable notations to formalize three-level causal questions, and with info intervention the interventionism and information transfer understanding to causality can be unified.
